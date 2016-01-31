@@ -15,17 +15,20 @@ $app->get('/', function () use ($app){
 
 $app->get('/blog', function () use ($app){
     return $app['templating']->render(
-        'layout.html.php');
+        'blog.html.php',
+        array('active' => 'blog'));
 });
 
 $app->get('/about', function () use ($app){
     return $app['templating']->render(
-        'about.html.php');
+        'about.html.php',
+        array('active' => 'about'));
 });
 
 $app->get('/links', function () use ($app){
     return $app['templating']->render(
-        'layout.html.php');
+        'layout.html.php',
+        array('active' => 'links'));
 });
 
 

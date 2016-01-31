@@ -1,4 +1,9 @@
 <?php
+/**
+ * @var $slots \Symfony\Component\Templating\Helper\SlotsHelper
+ *
+ */
+
 $slots = $view['slots'];
 ?>
 
@@ -21,6 +26,7 @@ $slots = $view['slots'];
         <header>
             <!-- TODO: login form -->
             <!-- TODO: arrow to indicate the use to scroll -->
+            <!-- TODO: weird class="active" bug-->
             <nav class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header page-scroll">
@@ -35,13 +41,13 @@ $slots = $view['slots'];
                             <li class="hidden">
                                 <a href="#page-top"></a>
                             </li>
-                            <li class="page-scroll">
-                                <a href="/blog" class="active">Blog</a>
+                            <li <?= $active=='blog' ? 'class="active"':''?>>
+                                <a href="/blog">Blog</a>
                             </li>
-                            <li class="page-scroll">
+                            <li <?= $active=='about' ? 'class="active"':'class="page-scroll"'?>>
                                 <a href="/about">About us</a>
                             </li>
-                            <li class="page-scroll">
+                            <li <?= $active=='links' ? 'class="active"':''?>>
                                 <a href="/links">Links</a>
                             </li>
                         </ul>
@@ -53,11 +59,14 @@ $slots = $view['slots'];
 
         <?php $slots->output('_content'); ?>
 
-        <footer>
+        <container>
+            <footer>
                 <div class="panel panel-footer">
                     <div class="panel-body">Some footer information</div>
                 </div>
-        </footer>
+            </footer>
+        </container>
+
     </body>
 </html>
 

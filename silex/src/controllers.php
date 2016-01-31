@@ -8,10 +8,27 @@ $app->get('/welcome/{name}', function ($name) use ($app) {
     );
 });
 
-$app->get('/test', function () use ($app){
+$app->get('/', function () use ($app){
+    return $app['templating']->render(
+        'start.html.php');
+});
+
+$app->get('/blog', function () use ($app){
     return $app['templating']->render(
         'layout.html.php');
 });
+
+$app->get('/about', function () use ($app){
+    return $app['templating']->render(
+        'layout.html.php');
+});
+
+$app->get('/links', function () use ($app){
+    return $app['templating']->render(
+        'layout.html.php');
+});
+
+
 
 $app->get('/welcome-twig/{name}', function ($name) use ($app) {
     return $app['twig']->render(

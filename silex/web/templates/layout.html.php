@@ -1,3 +1,7 @@
+<?php
+$slots = $view['slots'];
+?>
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
     <head>
@@ -22,7 +26,7 @@
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                             <span class="glyphicon glyphicon-th-list"></span>
                         </button>
-                        <a class="navbar-brand" href="#page-top">Start Bootstrap</a>
+                        <a class="navbar-brand" href="/">Start Bootstrap</a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -31,13 +35,13 @@
                                 <a href="#page-top"></a>
                             </li>
                             <li class="page-scroll">
-                                <a href="#portfolio" class="active">Portfolio</a>
+                                <a href="/blog" class="active">Blog</a>
                             </li>
                             <li class="page-scroll">
-                                <a href="#about">About</a>
+                                <a href="/about">About me</a>
                             </li>
                             <li class="page-scroll">
-                                <a href="#contact">Contact</a>
+                                <a href="/links">Links</a>
                             </li>
                         </ul>
                     </div>
@@ -46,75 +50,17 @@
             </nav>
         </header>
 
+        <?php $slots->output('_content'); ?>
 
-        <div class="container-fluid">
-             <div class="row">
-                <img src="/images/skyscraper.jpg" alt=""/>
-                <div class="col-md-4" id="skyscraper">
-
-                </div>
-                <div class="col-lg-4" id="test">
-                    <p>test</p>
-                    <p>lorem</p>
-                    <p>ipsum</p>
-                    <p>dolor</p>
-                    <p>sit</p>
-                    <p>amet</p>
-                    <p>test</p>
-                    <p>lorem</p>
-                    <p>ipsum</p>
-                    <p>dolor</p>
-                    <p>sit</p>
-                    <p>amet</p>
-                    <p>test</p>
-                    <p>lorem</p>
-                    <p>ipsum</p>
-                    <p>dolor</p>
-                    <p>sit</p>
-                    <p>amet</p>
-                    <p>test</p>
-                    <p>lorem</p>
-                    <p>ipsum</p>
-                    <p>dolor</p>
-                    <p>sit</p>
-                    <p>amet</p>
-                    <p>test</p>
-                    <p>lorem</p>
-                    <p>ipsum</p>
-                    <p>dolor</p>
-                    <p>sit</p>
-                    <p>amet</p>
-                    <p>test</p>
-                    <p>lorem</p>
-                    <p>ipsum</p>
-                    <p>dolor</p>
-                    <p>sit</p>
-                    <p>amet</p>
-                    <p>test</p>
-                    <p>lorem</p>
-                    <p>ipsum</p>
-                    <p>dolor</p>
-                    <p>sit</p>
-                    <p>amet</p>
-                    <p>test</p>
-                    <p>lorem</p>
-                    <p>ipsum</p>
-                    <p>dolor</p>
-                    <p>sit</p>
-                    <p>amet</p>
-                    <h1>
-                        <?php $view['slots']->output('title', 'Default title') ?>
-                    </h1>
-                    <hr/>
-                    <?php $view['slots']->output('_content') ?>
-                    <hr/>
-                    <footer>
-                    </footer>
-                </div>
-            </div>
-        </div>
-
-
+        <footer>
+            <container>
+                <row>
+                    <div class="col-md-12">
+                        <span>Das ist der Footer.</span>
+                    </div>
+                </row>
+            </container>
+        </footer>
     </body>
 </html>
 

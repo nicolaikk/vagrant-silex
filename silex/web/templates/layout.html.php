@@ -14,7 +14,7 @@ $slots = $view['slots'];
         <link href="/vendor/css/style.css" rel="stylesheet">
 
         <script src="/vendor/jquery/dist/jquery.min.js"></script>
-        <script src="/vendor/bootstrap/dist/css/bootstrap.min.css"></script>
+        <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
 
     </head>

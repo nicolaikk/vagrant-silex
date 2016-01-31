@@ -20,7 +20,7 @@ $app->get('/blog', function () use ($app){
 
 $app->get('/about', function () use ($app){
     return $app['templating']->render(
-        'layout.html.php');
+        'about.html.php');
 });
 
 $app->get('/links', function () use ($app){

@@ -10,13 +10,25 @@ $app->get('/welcome/{name}', function ($name) use ($app) {
 
 $app->get('/', function () use ($app){
     return $app['templating']->render(
-        'start.html.php');
+        'start.html.php',
+        array('active' => 'home'));
+
 });
 
-$app->get('/blog', function () use ($app){
+$app->get('/blog', function (Request $request) use ($app){
     return $app['templating']->render(
         'blog.html.php',
         array('active' => 'blog'));
+});
+
+$app->match('/test', function (Request $request) use ($app) {
+    $email = $request->get('email');
+    $text = $request->get('text');
+    $isEmpty = $email == '';
+
+    return $app['templating']->render(
+        'blog.html.php',
+        array('active' => 'links', 'isEmpty' => $isEmpty));
 });
 
 $app->get('/about', function () use ($app){

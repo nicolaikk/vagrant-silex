@@ -3,17 +3,19 @@
 <div class="container">
     <row>
         <div class="col-md-10">
-            <div class="form-group">
-                <label for="usr">Name:</label>
-                <input type="text" class="form-control" id="usr">
-            </div>
-            <div class="form-group">
-                <label for="comment">Comment:</label>
-                <textarea class="form-control" rows="5" id="comment"></textarea>
-            </div>
-            <button type="button" class="btn btn-default">Submit</button>
-            <button type="button" class="btn btn-default">Reset</button>
+            <form action="/test" method="post">
+                First name: <input type="text" name="email"><br>
+                Last name: <input type="text" name="blog"><br>
+                <button type="submit" value="Submit">Submit</button>
+                <button type="reset" value="Reset">Reset</button>
+            </form>
         </div>
     </row>
 </div>
+
+
+<div class="glyphicon glyphicon-apple">
+    <?= $isEmpty ? 'leer':'nicht leer'?>
+</div>
+
 

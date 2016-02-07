@@ -24,12 +24,27 @@ $app->get('/blog', function (Request $request) use ($app){
 $app->match('/test', function (Request $request) use ($app) {
     $email = $request->get('email');
     $text = $request->get('text');
-    $isEmpty = $email == '';
+    $emailEmpty = $email == '';
+    $textEmpty = $text == '';
+    if ($emailEmpty && $textEmpty) {
+        $alertMessage = 'Bitte geben Sie Ihre Email-Adresse und einen Blogpost ein.';
+        $alertVisible = true;
+        } elseif ($emailEmpty) {
+        $alertMessage = 'Bitte geben Sie Ihre Email-Adresse an.';
+        $alertVisible = true;
+        } elseif ($textEmpty) {
+        $alertMessage = 'Bitte geben Sie einen Blogpost ein.';
+        $alertVisible = true;
+        } else {
+        $alertVisible = false;
+        }
 
     return $app['templating']->render(
         'blog.html.php',
-        array('active' => 'links', 'isEmpty' => $isEmpty));
+        array('active' => 'links', 'alertMessage' => $alertMessage, 'alertVisible' => $alertVisible));
 });
+
+
 
 $app->get('/about', function () use ($app){
     return $app['templating']->render(

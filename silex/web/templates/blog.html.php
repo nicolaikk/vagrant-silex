@@ -6,6 +6,14 @@
     <row>
         <div class="col-md-10">
             <form action="/test" method="post" class="form-horizontal">
+                <div class="alert alert-success"  style="display:none">
+                    <strong>Erfolg:</strong>
+                </div>
+                <?= $alertMessage ?>
+                <div class="alert alert-danger" <?= $alertVisible ? '':'style="display:none"'?>>
+                    <strong>Fehler:</strong> <?= $alertVisible ? $alertMessage:''?>
+                </div>
+
                 <legend>Form Name</legend>
 
                 <!-- Text input-->

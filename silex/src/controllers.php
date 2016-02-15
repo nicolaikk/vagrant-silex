@@ -15,30 +15,33 @@ $app->get('/', function () use ($app){
 
 });
 
-$app->get('/blog', function (Request $request) use ($app){
+
+$app->post('/blog', function (Request $request) use ($app) {
+    $email = $request->get('email');
+    $text = $request->get('blog');
+    if (($email == NULL) && ($text == NULL)) {
+        $alertVisible = TRUE;
+        $alertMessage = "Email und Text fehlt";
+    } elseif ($email == NULL) {
+        $alertVisible = TRUE;
+        $alertMessage = "Email fehlt";
+    } elseif ($text == NULL) {
+        $alertVisible = TRUE;
+        $alertMessage = "Text fehlt";
+    } else {
+        $alertVisible = FALSE;
+        $alertMessage = "";
+
+    }
+
     return $app['templating']->render(
         'blog.html.php',
-        array('active' => 'blog'));
+        array('active' => 'links', 'alertMessage' => $alertMessage, 'alertVisible' => $alertVisible));
 });
 
-$app->match('/test', function (Request $request) use ($app) {
-    $email = $request->get('email');
-    $text = $request->get('text');
-    $emailEmpty = $email == '';
-    $textEmpty = $text == '';
-    if ($emailEmpty && $textEmpty) {
-        $alertMessage = 'Bitte geben Sie Ihre Email-Adresse und einen Blogpost ein.';
-        $alertVisible = true;
-        } elseif ($emailEmpty) {
-        $alertMessage = 'Bitte geben Sie Ihre Email-Adresse an.';
-        $alertVisible = true;
-        } elseif ($textEmpty) {
-        $alertMessage = 'Bitte geben Sie einen Blogpost ein.';
-        $alertVisible = true;
-        } else {
-        $alertVisible = false;
-        }
-
+$app->get('/blog', function (Request $request) use ($app){
+    $alertMessage = "";
+    $alertVisible = FALSE;
     return $app['templating']->render(
         'blog.html.php',
         array('active' => 'links', 'alertMessage' => $alertMessage, 'alertVisible' => $alertVisible));
@@ -68,3 +71,6 @@ $app->get('/welcome-twig/{name}', function ($name) use ($app) {
 });
 
 // generate a link to the stylesheets in /css/styles.css
+
+
+

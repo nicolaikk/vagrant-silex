@@ -5,7 +5,7 @@
 
     <row>
         <div class="col-md-10">
-            <form action="/test" method="post" class="form-horizontal">
+            <form action="/blog" method="post" class="form-horizontal">
                 <div class="alert alert-success"  style="display:none">
                     <strong>Erfolg:</strong>
                 </div>
@@ -52,5 +52,4 @@
 <div class="glyphicon glyphicon-apple">
     <?= $isEmpty ? 'leer':'nicht leer'?>
 </div>
-
 

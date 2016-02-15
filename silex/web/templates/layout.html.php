@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $slots \Symfony\Component\Templating\Helper\SlotsHelper
+ * @var $active
  *
  */
 
@@ -26,7 +27,6 @@ $slots = $view['slots'];
         <header>
             <!-- TODO: login form -->
             <!-- TODO: arrow to indicate the use to scroll -->
-            <!-- TODO: weird class="active" bug-->
             <nav class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header page-scroll">

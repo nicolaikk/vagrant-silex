@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 $template = $app['templating'];
 $db_connection = $app['db'];
+$pageHeading = '';
 
 $app->get('/welcome/{name}', function ($name) use ($template) {
     return $template->render(
@@ -17,10 +18,13 @@ $app->get('/welcome/{name}', function ($name) use ($template) {
     );
 });
 
-$app->get('/', function () use ($template){
+$app->get('/', function () use ($template) {
     return $template->render(
         'start.html.php',
-        array('active' => 'home'));
+        array(
+            'active' => 'home',
+            'pageHeading' => 'Start getting productive right now'
+            ));
 
 });
 
@@ -58,15 +62,16 @@ $app->post('/blog', function (Request $request) use ($template, $db_connection) 
         array(
             'active' => 'blog',
             'alertMessage' => $alertMessage,
-            'alertVisible' => $alertVisible)
+            'alertVisible' => $alertVisible,
+            'pageHeading' => $pageHeading)
     );
 });
 
-$app->get('/blog', function (Request $request) use ($template, $db_connection){
+$app->get('/blog', function (Request $request) use ($template, $db_connection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
     $alertMessage = "";
     $alertVisible = FALSE;
-    $blogPosts = $db_connection->fetchAll('SELECT * FROM blog_post');
+    $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post');
 
     return $template->render(
         'blog.html.php',
@@ -74,23 +79,30 @@ $app->get('/blog', function (Request $request) use ($template, $db_connection){
             'active' => 'blog',
             'alertMessage' => $alertMessage,
             'alertVisible' => $alertVisible,
-            'blogPosts' => $blogPosts
+            'blogPosts' => $blogPosts,
+            'pageHeading' => $pageHeading
         )
     );
 });
 
 
-
-$app->get('/about', function () use ($template){
+$app->get('/about', function () use ($template) {
     return $template->render(
         'about.html.php',
-        array('active' => 'about'));
+        array(
+            'active' => 'about',
+            'pageHeading' => $pageHeading
+        ));
 });
 
-$app->get('/links', function () use ($template){
+$app->get('/links', function () use ($template) {
+    $pageHeading = 'Das ist ein Test';
     return $template->render(
         'layout.html.php',
-        array('active' => 'links'));
+        array(
+            'active' => 'links',
+            'pageHeading' => $pageHeading
+        ));
 });
 
 

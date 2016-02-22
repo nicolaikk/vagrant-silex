@@ -26,17 +26,18 @@ $app->get('/', function () use ($template){
 
 
 $app->post('/blog', function (Request $request) use ($template, $db_connection) {
-    $email = $request->get('email');
-    $text = $request->get('blog');
+    /** @var Doctrine\DBAL\Connection $db_connection */
+    $postTitle = $request->get('postTitle');
+    $post = $request->get('post');
     $createdAt = date('c');
 
-    if (($email == NULL) && ($text == NULL)) {
+    if (($postTitle == NULL) && ($post == NULL)) {
         $alertVisible = TRUE;
-        $alertMessage = "Email und Text fehlt";
-    } elseif ($email == NULL) {
+        $alertMessage = "Titel und Text fehlt";
+    } elseif ($postTitle == NULL) {
         $alertVisible = TRUE;
-        $alertMessage = "Email fehlt";
-    } elseif ($text == NULL) {
+        $alertMessage = "Titel fehlt";
+    } elseif ($post == NULL) {
         $alertVisible = TRUE;
         $alertMessage = "Text fehlt";
     } else {
@@ -45,8 +46,9 @@ $app->post('/blog', function (Request $request) use ($template, $db_connection) 
         $db_connection->insert(
             'blog_post',
             array(
-                'title' => $email,
-                'text' => $text
+                'title' => $postTitle,
+                'text' => $post,
+                'created_at' => $createdAt
             )
         );
     }
@@ -61,14 +63,18 @@ $app->post('/blog', function (Request $request) use ($template, $db_connection) 
 });
 
 $app->get('/blog', function (Request $request) use ($template, $db_connection){
+    /** @var Doctrine\DBAL\Connection $db_connection */
     $alertMessage = "";
     $alertVisible = FALSE;
+    $blogPosts = $db_connection->fetchAll('SELECT * FROM blog_post');
+
     return $template->render(
         'blog.html.php',
         array(
             'active' => 'blog',
             'alertMessage' => $alertMessage,
-            'alertVisible' => $alertVisible
+            'alertVisible' => $alertVisible,
+            'blogPosts' => $blogPosts
         )
     );
 });

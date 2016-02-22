@@ -18,9 +18,9 @@
 
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="textinput">Email*</label>
+                    <label class="col-md-4 control-label" for="textinput">Titel*</label>
                     <div class="col-md-4">
-                        <input id="textinput" name="email" type="text" placeholder="Tragen Sie hier Ihre Emal ein." class="form-control input-md">
+                        <input id="textinput" name="postTitle" type="text" placeholder="Tragen Sie hier den Titel ein." class="form-control input-md">
                         <span class="help-block">help</span>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="textarea">Blogeintrag*</label>
                     <div class="col-md-4">
-                        <textarea class="form-control" id="textarea" name="blog" placeholder="Tragen Sie hier Ihren Blogeintrag ein."></textarea>
+                        <textarea class="form-control" id="textarea" name="post" placeholder="Tragen Sie hier Ihren Blogeintrag ein."></textarea>
                     </div>
                 </div>
 
@@ -43,13 +43,11 @@
                 </div>
             </form>
         </div>
-
+        <?= $blogPosts['text'] ?>
 
     </row>
 </div>
 
 
-<div class="glyphicon glyphicon-apple">
-    <?= $isEmpty ? 'leer':'nicht leer'?>
-</div>
+
 

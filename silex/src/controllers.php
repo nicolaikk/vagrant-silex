@@ -4,20 +4,28 @@ use Symfony\Component\HttpFoundation\Response;
 
 /***
  * @var $app Silex\Application
- * @var $db_connection Doctrine\DBAL\Connection
+ * @var $dbConnection Doctrine\DBAL\Connection
  * @var $template Symfony\Component\Templating\DelegatingEngine
  */
 
 $template = $app['templating'];
-$db_connection = $app['db'];
+$dbConnection = $app['db'];
 $pageHeading = '';
 $auth = (null === ($user = $app['session']->get('user')));
 
-$app->get('/blog/{blogId}', function ($name) use ($template) {
-    return $template->render(
-        'hello.html.php',
-        array('name' => $name)
+$app->get('/post/{postId}', function ($postId) use ($auth, $template, $dbConnection) {
+    $post = $dbConnection->fetchAssoc(
+        'SELECT * FROM blog_post WHERE id = ?',
+        array($postId)
     );
+    return $template->render(
+        'post_show.html.php',
+        array(
+            'active' => 'blog_show',
+            'auth' => $auth,
+            'pageHeading' => $post['title'],
+            'post' => $post
+    ));
 });
 
 $app->get('/', function () use ($auth, $template) {
@@ -31,7 +39,7 @@ $app->get('/', function () use ($auth, $template) {
 
 });
 
-$app->match('/blog_new', function (Request $request) use ($app, $auth, $template, $db_connection) {
+$app->match('/blog_new', function (Request $request) use ($app, $auth, $template, $dbConnection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
 
     $pageHeading = 'Verfassen Sie hier einen neune Post';
@@ -39,7 +47,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
     $alertVisible = FALSE;
     $post = '';
     $postTitle = '';
-    $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post');
+    $blogPosts = $dbConnection->fetchAssoc('SELECT * FROM blog_post');
 
     if ($request->isMethod('GET')) {
         return $template->render(
@@ -72,7 +80,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
         } else {
             $alertVisible = false;
             $alertMessage = '';
-            $db_connection->insert(
+            $dbConnection->insert(
                 'blog_post',
                 array(
                     'title' => $postTitle,
@@ -85,10 +93,10 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
     return $app->redirect('/blog_show');
 });
 
-$app->get('/blog_show', function (Request $request) use ($auth, $template, $db_connection) {
+$app->get('/blog_show', function (Request $request) use ($auth, $template, $dbConnection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
     $pageHeading = 'Hier werden Blogposts angezeigt. Ferner ist dies ein nahezu endloser Text, der kaum enden möchte';
-    $blogPosts = $db_connection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
+    $blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
     return $template->render(
         'blog_show.html.php',
         array(
@@ -105,7 +113,7 @@ $app->get('/about', function () use ($auth, $template) {
         'about.html.php',
         array(
             'active' => 'about',
-            'pageHeading' => $pageHeading,
+            'pageHeading' => '',
             'auth' => $auth
         ));
 });
@@ -121,12 +129,12 @@ $app->get('/links', function () use ($auth, $template) {
         ));
 });
 
-$app->match('/login', function (Request $request) use ($app, $auth, $template, $db_connection) {
+$app->match('/login', function (Request $request) use ($app, $auth, $template, $dbConnection) {
     if ($request->isMethod('POST')) {
         $referer = $request->headers->get('referer');
         $email = $request->get('email');
         $password = $request->get('passwordInput');
-        $storedHash = $db_connection->fetchAssoc("SELECT * FROM account WHERE email = '$email'");
+        $storedHash = $dbConnection->fetchAssoc("SELECT * FROM account WHERE email = '$email'");
         if (password_verify($password, $storedHash['password'])) {
             $app['session']->set('user', array('username' => $email));
             if (parse_url($referer, PHP_URL_PATH) == '/login') {
@@ -160,7 +168,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
     }
 });
 
-$app->match('/register', function (Request $request) use ($app, $auth, $template, $db_connection) {
+$app->match('/register', function (Request $request) use ($app, $auth, $template, $dbConnection) {
     if ($request->isMethod('GET')) {
         return $template->render(
             'register.html.php',
@@ -176,7 +184,7 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
         $password1 = $request->get('password1');
         $password2 = $request->get('password2');
         if ($password1 == $password2) {
-            $db_connection->insert(
+            $dbConnection->insert(
                 'account',
                 array(
                     'username' => $username,

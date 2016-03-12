@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="textinput">Titel*</label>
                     <div class="col-md-4">
-                        <input id="textinput" name="postTitle"
+                        <input id="textinput" name="postTitle" autofocus="autofocus"
                                type="text" <?= $postTitle ? 'value="$postTitle"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
                                class="form-control input-md"/>
                     </div>

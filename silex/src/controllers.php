@@ -53,7 +53,7 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
             )
         );
 
-    } elseif ($request->isMethod('GET')) {
+    } elseif ($request->isMethod('POST')) {
         $postTitle = $request->get('postTitle');
         $post = $request->get('post');
         $createdAt = date('c');

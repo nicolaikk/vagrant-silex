@@ -31,9 +31,8 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="textarea">Blogeintrag*</label>
                     <div class="col-md-4">
-                        <input class="form-control" id="textarea" name="post"
-                            <?= $post ? 'value="'.$post.'"' : 'placeholder="Tragen Sie hier Ihren Blogeintrag ein."' ?>
-                        />
+                        <textarea class="form-control" id="textarea" name="post" rows="10"
+                                  placeholder="Tragen Sie hier Ihren Blogeintrag ein."><?= $post ? $post : '' ?></textarea>
                     </div>
                 </div>
 

@@ -85,7 +85,7 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
     return $template->render(
         'blog.html.php',
         array(
-            'active' => 'about',
+            'active' => 'blog_new',
             'alertMessage' => $alertMessage,
             'alertVisible' => $alertVisible,
             'pageHeading' => $pageHeading,
@@ -98,17 +98,16 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
 $app->get('/blog_show', function (Request $request) use ($template, $db_connection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
     $pageHeading = 'Hier werden Blogposts angezeigt. Ferner ist dies ein nahezu endloser Text, der kaum enden möchte';
-    $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post WHERE id == 3');
+    $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post');
     return $template->render(
-        'blog.html.php',
+        'blog_show.html.php',
         array(
             'active' => 'blog_show',
             'pageHeading' => $pageHeading,
-            'blogPost' => $blogPosts
+            'blogPosts' => $blogPosts
         )
     );
 });
-
 
 $app->get('/about', function () use ($template) {
     return $template->render(

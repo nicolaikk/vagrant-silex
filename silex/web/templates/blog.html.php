@@ -25,13 +25,13 @@
                     <strong>Fehler:</strong> <?= $alertVisible ? $alertMessage : '' ?>
                 </div>
 
-                <legend>Neuen Blogpost anlegen</legend>
+                <p>Neuen Blogpost anlegen</p>
 
                 <!-- Text input-->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="textinput">Titel*</label>
+                    <label class="col-md-4 control-label" for="postTitle">Titel</label>
                     <div class="col-md-4">
-                        <input id="textinput" name="postTitle" autofocus="autofocus"
+                        <input id="postTitle" name="postTitle" autofocus="autofocus"
                                type="text" <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
                                class="form-control input-md"/>
                     </div>
@@ -39,9 +39,9 @@
 
                 <!-- Textarea -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="textarea">Blogeintrag*</label>
+                    <label class="col-md-4 control-label" for="post">Blogeintrag</label>
                     <div class="col-md-4">
-                        <textarea class="form-control" id="textarea" name="post" rows="10"
+                        <textarea class="form-control" id="post" name="post" rows="10"
                                   placeholder="Tragen Sie hier Ihren Blogeintrag ein."><?= $post ? $post : '' ?></textarea>
                     </div>
                 </div>

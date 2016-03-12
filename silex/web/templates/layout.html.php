@@ -68,20 +68,20 @@ $slots = $view['slots'];
                                               id="login-nav">
                                             <div class="form-group">
                                                 <label class="sr-only" for="email">Email address</label>
-                                                <input type="email" class="form-control" name="email"
+                                                <input type="email" class="form-control" name="email" id="email"
                                                        placeholder="Email oder Accountname" required>
                                             </div>
                                             <div class="form-group">
                                                 <label class="sr-only" for="passwordInput">Password</label>
                                                 <input type="password" class="form-control" name="passwordInput"
-                                                       placeholder="Passwort" required>
+                                                       id="passwordInput" placeholder="Passwort" required>
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" \> Angemeldet bleiben
+                                                    <input type="checkbox"/> Angemeldet bleiben
                                                 </label>
                                             </div>
                                         </form>

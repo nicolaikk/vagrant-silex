@@ -1,6 +1,4 @@
 <?php $view->extend('layout.html.php') ?>
-<?php /**TODO: give a message if post is successfully stored in the database OR redirect to new post**/ ?>
-<?php /**TODO: keep the text of the input files if posting is not successful**/ ?>
 <div class="container">
 
 

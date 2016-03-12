@@ -7,8 +7,8 @@
             <div class="well">
                 <form role="form" action="/login" method="post">
                     <div class="form-group">
-                        <label for="username">Email oder Nutzername:</label>
-                        <input type="text" class="form-control" name="userInput" id="username">
+                        <label for="username">Email:</label>
+                        <input type="email" class="form-control" name="email" id="email">
                     </div>
                     <div class="form-group">
                         <label for="pwd">Passwort:</label>

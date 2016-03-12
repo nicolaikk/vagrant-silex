@@ -25,7 +25,7 @@ $app->get('/', function () use ($template) {
         array(
             'active' => 'home',
             'pageHeading' => 'Start getting productive right now'
-            ));
+        ));
 
 });
 
@@ -118,21 +118,30 @@ $app->get('/links', function () use ($template) {
 $app->match('/login', function (Request $request) use ($app, $template, $db_connection) {
     if ($request->isMethod('POST')) {
         $referer = $request->headers->get('referer');
-        $username = $request->get('userInput');
+        $email = $request->get('email');
         $password = $request->get('passwordInput');
-
-        if ('admin' === $username && 'admin' === $password) {
-            $app['session']->set('user', array('username' => $username));
+        $storedHash = $db_connection->fetchAssoc("SELECT * FROM account WHERE email = '$email'");
+        if (password_verify($password, $storedHash['password'])) {
+            $app['session']->set('user', array('username' => $email));
             if (parse_url($referer, PHP_URL_PATH) == '/login') {
                 return $app->redirect('/');
+            } else {
+                return $app->redirect($referer);
             }
-            return $app->redirect($referer);
-        }
 
+        } else {
+            //return $app->redirect('/login');
+            return $template->render(
+                'login.html.php',
+                array(
+                    'active' => 'links',
+                    'pageHeading' => $email
+                ));
+        }
         //$response = new Response();
         //$response->headers->set('WWW-Authenticate', sprintf('Basic realm="%s"', 'site_login'));
         //$response->setStatusCode(401, 'Please sign in.');
-        return $app->redirect('/login');
+
     } elseif ($request->isMethod('GET')) {
         return $template->render(
             'login.html.php',
@@ -142,6 +151,51 @@ $app->match('/login', function (Request $request) use ($app, $template, $db_conn
             ));
     }
 });
+
+$app->match('/register', function (Request $request) use ($app, $template, $db_connection) {
+    if ($request->isMethod('GET')) {
+        return $template->render(
+            'register.html.php',
+            array(
+                'active' => '',
+                'pageHeading' => 'Registrieren'
+            ));
+
+    } elseif ($request->isMethod('POST')) {
+        $username = $request->get('userName');
+        $email = $request->get('email');
+        $password1 = $request->get('password1');
+        $password2 = $request->get('password2');
+        if ($password1 == $password2) {
+            $db_connection->insert(
+                'account',
+                array(
+                    'username' => $username,
+                    'email' => $email,
+                    'password' => password_hash($password1, PASSWORD_DEFAULT)
+                )
+            );
+            $alertMessage = 'Account angelegt';
+            $alertVisible = false;
+        } else {
+            $alertMessage = 'Passwörter stimmen nicht überein';
+            $alertVisible = true;
+        }
+        return $template->render(
+            'register.html.php',
+            array(
+                'alertMessage' => $alertMessage,
+                'alertVisible' => $alertVisible,
+                'active' => '',
+                'pageHeading' => $username
+            )
+        );
+    }
+});
+
+
+
+
 
 
 

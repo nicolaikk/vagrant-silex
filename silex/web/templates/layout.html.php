@@ -65,8 +65,8 @@ $slots = $view['slots'];
                                         <form class="form" method="post" action="login" accept-charset="UTF-8"
                                               id="login-nav">
                                             <div class="form-group">
-                                                <label class="sr-only" for="userInput">Email address</label>
-                                                <input type="text" class="form-control" name="userInput"
+                                                <label class="sr-only" for="email">Email address</label>
+                                                <input type="email" class="form-control" name="email"
                                                        placeholder="Email oder Accountname" required>
                                             </div>
                                             <div class="form-group">
@@ -85,7 +85,7 @@ $slots = $view['slots'];
                                         </form>
                                     </div>
                                     <div class="bottom text-center">
-                                        <a href="#">Registrieren</a>
+                                        <a href="/register">Registrieren</a>
                                     </div>
                                 </div>
 

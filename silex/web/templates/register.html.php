@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var $view
+ * @var $alertVisible
+ * @var $alertMessage
+ */
+?>
+
 <?php $view->extend('layout.html.php') ?>
 
 

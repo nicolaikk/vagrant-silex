@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var $view
+ * @var $blogPosts
+ */
+?>
+
 <?php $view->extend('layout.html.php') ?>
 
 <div class="container-fluid">

@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var $view
+ */
+?>
+
 <?php $view->extend('layout.html.php') ?>
 
 
@@ -7,7 +13,7 @@
             <div class="well">
                 <form role="form" action="/login" method="post">
                     <div class="form-group">
-                        <label for="username">Email:</label>
+                        <label for="email">Email:</label>
                         <input type="email" class="form-control" name="email" id="email">
                     </div>
                     <div class="form-group">

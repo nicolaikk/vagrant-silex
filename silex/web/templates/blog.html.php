@@ -1,4 +1,16 @@
+<?php
+/**
+ * @var $view
+ * @var $alertVisible
+ * @var $alertMessage
+ * @var $postTitle
+ * @var $post
+ * @var $blogPosts
+ */
+?>
+
 <?php $view->extend('layout.html.php') ?>
+
 <div class="container">
 
 
@@ -20,7 +32,7 @@
                     <label class="col-md-4 control-label" for="textinput">Titel*</label>
                     <div class="col-md-4">
                         <input id="textinput" name="postTitle" autofocus="autofocus"
-                               type="text" <?= $postTitle ? 'value="'.$postTitle.'"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
+                               type="text" <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
                                class="form-control input-md"/>
                     </div>
                 </div>

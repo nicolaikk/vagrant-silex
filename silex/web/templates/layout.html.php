@@ -3,7 +3,6 @@
  * @var $slots \Symfony\Component\Templating\Helper\SlotsHelper
  * @var $active
  * @var $auth
- *
  */
 
 $slots = $view['slots'];
@@ -82,7 +81,7 @@ $slots = $view['slots'];
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox"\> Angemeldet bleiben
+                                                    <input type="checkbox" \> Angemeldet bleiben
                                                 </label>
                                             </div>
                                         </form>

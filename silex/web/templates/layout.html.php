@@ -42,10 +42,10 @@ $slots = $view['slots'];
                         <a href="#page-top"></a>
                     </li>
                     <li <?= $active == 'blog' ? 'class="active"' : '' ?>>
-                        <a href="/blog">Blog</a>
+                        <a href="/blog">Neuer Post</a>
                     </li>
-                    <li <?= $active == 'new_blog' ? 'class="active"' : '' ?>>
-                        <a href="/blog">Neuer Blogpost</a>
+                    <li <?= $active == 'blog_show' ? 'class="active"' : '' ?>>
+                        <a href="/blog_show">Blog</a>
                     </li>
                     <li <?= $active == 'about' ? 'class="active"' : 'class="page-scroll"' ?>>
                         <a href="/about">About us</a>
@@ -90,7 +90,7 @@ $slots = $view['slots'];
     </nav>
 </header>
 
-<header class="intro-header" style="background-image: url('/images/aerialphoto.jpg')">
+<header class="row intro-header" style="background-image: url('/images/aerialphoto.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">

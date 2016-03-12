@@ -23,7 +23,6 @@
                     <div class="col-md-4">
                         <input id="textinput" name="postTitle" type="text" placeholder="Tragen Sie hier den Titel ein."
                                class="form-control input-md">
-                        <span class="help-block">help</span>
                     </div>
                 </div>
 
@@ -38,7 +37,7 @@
 
                 <!-- Button (Double) -->
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="button1id">Double Button</label>
+                    <label class="col-md-4 control-label" for="button1id"></label>
                     <div class="col-md-8">
                         <button id="button1id" name="button1id" class="btn btn-success">Abschicken</button>
                         <button id="button2id" name="button2id" class="btn btn-danger">Zurücksetzen</button>

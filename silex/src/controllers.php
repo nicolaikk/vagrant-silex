@@ -60,7 +60,7 @@ $app->post('/blog', function (Request $request) use ($template, $db_connection) 
     return $template->render(
         'blog.html.php',
         array(
-            'active' => 'blog',
+            'active' => 'about',
             'alertMessage' => $alertMessage,
             'alertVisible' => $alertVisible,
             'pageHeading' => $pageHeading)
@@ -80,6 +80,18 @@ $app->get('/blog', function (Request $request) use ($template, $db_connection) {
             'alertMessage' => $alertMessage,
             'alertVisible' => $alertVisible,
             'blogPosts' => $blogPosts,
+            'pageHeading' => $pageHeading
+        )
+    );
+});
+
+$app->get('/blog_show', function (Request $request) use ($template, $db_connection) {
+    /** @var Doctrine\DBAL\Connection $db_connection */
+    $pageHeading = 'Hier werden Blogposts angezeigt. Ferner ist dies ein nahezu endloser Text, der kaum enden möchte';
+    return $template->render(
+        'about.html.php',
+        array(
+            'active' => 'blog_show',
             'pageHeading' => $pageHeading
         )
     );

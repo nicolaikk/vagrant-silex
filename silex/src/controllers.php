@@ -115,25 +115,32 @@ $app->get('/links', function () use ($template) {
         ));
 });
 
-$app->post('/login', function (Request $request) use ($app, $template, $db_connection) {
-    $referer = $request->headers->get('referer');
-    $username = $request->get('userInput');
-    $password = $request->get('passwordInput');
+$app->match('/login', function (Request $request) use ($app, $template, $db_connection) {
+    if ($request->isMethod('POST')) {
+        $referer = $request->headers->get('referer');
+        $username = $request->get('userInput');
+        $password = $request->get('passwordInput');
 
-    if ('admin' === $username && 'admin' === $password) {
-        $app['session']->set('user', array('username' => $username));
-        return $app->redirect($referer);
+        if ('admin' === $username && 'admin' === $password) {
+            $app['session']->set('user', array('username' => $username));
+            if (parse_url($referer, PHP_URL_PATH) == '/login') {
+                return $app->redirect('/');
+            }
+            return $app->redirect($referer);
+        }
+
+        //$response = new Response();
+        //$response->headers->set('WWW-Authenticate', sprintf('Basic realm="%s"', 'site_login'));
+        //$response->setStatusCode(401, 'Please sign in.');
+        return $app->redirect('/login');
+    } elseif ($request->isMethod('GET')) {
+        return $template->render(
+            'login.html.php',
+            array(
+                'active' => 'links',
+                'pageHeading' => 'login'
+            ));
     }
-
-    //$response = new Response();
-    //$response->headers->set('WWW-Authenticate', sprintf('Basic realm="%s"', 'site_login'));
-    //$response->setStatusCode(401, 'Please sign in.');
-    return $template->render(
-        'layout.html.php',
-        array(
-            'active' => ' ',
-            'pageHeading' => 'Login failed'
-        ));
 });
 
 

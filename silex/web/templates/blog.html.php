@@ -22,7 +22,7 @@
                     <label class="col-md-4 control-label" for="textinput">Titel*</label>
                     <div class="col-md-4">
                         <input id="textinput" name="postTitle" autofocus="autofocus"
-                               type="text" <?= $postTitle ? 'value="$postTitle"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
+                               type="text" <?= $postTitle ? 'value="'.$postTitle.'"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
                                class="form-control input-md"/>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                     <label class="col-md-4 control-label" for="textarea">Blogeintrag*</label>
                     <div class="col-md-4">
                         <input class="form-control" id="textarea" name="post"
-                            <?= $post ? 'value="$post"' : 'placeholder="Tragen Sie hier Ihren Blogeintrag ein."' ?>
+                            <?= $post ? 'value="'.$post.'"' : 'placeholder="Tragen Sie hier Ihren Blogeintrag ein."' ?>
                         />
                     </div>
                 </div>

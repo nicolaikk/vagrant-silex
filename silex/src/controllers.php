@@ -33,8 +33,10 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
     /** @var Doctrine\DBAL\Connection $db_connection */
 
     $pageHeading = 'Verfassen Sie hier einen neune Post';
-    $alertMessage = ' ';
+    $alertMessage = '';
     $alertVisible = FALSE;
+    $post = '';
+    $postTitle = '';
     $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post');
 
     if ($request->isMethod('GET')) {
@@ -45,7 +47,10 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
                 'alertMessage' => $alertMessage,
                 'alertVisible' => $alertVisible,
                 'pageHeading' => $pageHeading,
-                'blogPosts' => $blogPosts)
+                'blogPosts' => $blogPosts,
+                'post' => $post,
+                'postTitle' => $postTitle
+            )
         );
 
     } elseif ($request->isMethod('GET')) {
@@ -70,7 +75,7 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
                 array(
                     'title' => $postTitle,
                     'text' => $post,
-                    'created_at' => $createdAt
+                    'created_at' => $createdAt,
                 )
             );
 
@@ -83,7 +88,10 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
             'active' => 'about',
             'alertMessage' => $alertMessage,
             'alertVisible' => $alertVisible,
-            'pageHeading' => $pageHeading)
+            'pageHeading' => $pageHeading,
+            'post' => $post,
+            'postTitle' => $postTitle
+        )
     );
 });
 

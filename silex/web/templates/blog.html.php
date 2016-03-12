@@ -1,5 +1,5 @@
 <?php $view->extend('layout.html.php') ?>
-<?php /**TODO: give a message if post is successfully stored in the database**/ ?>
+<?php /**TODO: give a message if post is successfully stored in the database OR redirect to new post**/ ?>
 <?php /**TODO: keep the text of the input files if posting is not successful**/ ?>
 <div class="container">
 
@@ -21,8 +21,9 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="textinput">Titel*</label>
                     <div class="col-md-4">
-                        <input id="textinput" name="postTitle" type="text" placeholder="Tragen Sie hier den Titel ein."
-                               class="form-control input-md">
+                        <input id="textinput" name="postTitle"
+                               type="text" <?= $postTitle ? 'value="$postTitle"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
+                               class="form-control input-md"/>
                     </div>
                 </div>
 
@@ -30,8 +31,9 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="textarea">Blogeintrag*</label>
                     <div class="col-md-4">
-                        <textarea class="form-control" id="textarea" name="post"
-                                  placeholder="Tragen Sie hier Ihren Blogeintrag ein."></textarea>
+                        <input class="form-control" id="textarea" name="post"
+                            <?= $post ? 'value="$post"' : 'placeholder="Tragen Sie hier Ihren Blogeintrag ein."' ?>
+                        />
                     </div>
                 </div>
 

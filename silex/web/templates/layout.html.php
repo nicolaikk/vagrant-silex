@@ -56,19 +56,23 @@ $slots = $view['slots'];
                         <a href="/links">Links</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
+                                class="caret"></span></a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form class="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                                        <form class="form" method="post" action="login" accept-charset="UTF-8"
+                                              id="login-nav">
                                             <div class="form-group">
                                                 <label class="sr-only" for="userInput">Email address</label>
-                                                <input type="text" class="form-control" name="userInput" placeholder="Email oder Accountname" required>
+                                                <input type="text" class="form-control" name="userInput"
+                                                       placeholder="Email oder Accountname" required>
                                             </div>
                                             <div class="form-group">
                                                 <label class="sr-only" for="passwordInput">Password</label>
-                                                <input type="password" class="form-control" name="passwordInput" placeholder="Passwort" required>
+                                                <input type="password" class="form-control" name="passwordInput"
+                                                       placeholder="Passwort" required>
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
@@ -85,7 +89,7 @@ $slots = $view['slots'];
                                     </div>
                                 </div>
 
-                            </ul>
+                        </ul>
                 </ul>
             </div>
         </div>

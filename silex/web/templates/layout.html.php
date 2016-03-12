@@ -9,7 +9,7 @@ $slots = $view['slots'];
 ?>
 
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="de">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -20,6 +20,8 @@ $slots = $view['slots'];
 
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <title>producify.io</title>
 
 
 </head>
@@ -41,8 +43,8 @@ $slots = $view['slots'];
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li <?= $active == 'blog' ? 'class="active"' : '' ?>>
-                        <a href="/blog">Neuer Post</a>
+                    <li <?= $active == 'blog_new' ? 'class="active"' : '' ?>>
+                        <a href="/blog_new">Neuer Post</a>
                     </li>
                     <li <?= $active == 'blog_show' ? 'class="active"' : '' ?>>
                         <a href="/blog_show">Blog</a>
@@ -59,14 +61,14 @@ $slots = $view['slots'];
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                                        <form class="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
                                             <div class="form-group">
-                                                <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                                                <label class="sr-only" for="userInput">Email address</label>
+                                                <input type="text" class="form-control" name="userInput" placeholder="Email oder Accountname" required>
                                             </div>
                                             <div class="form-group">
-                                                <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                                <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                                                <label class="sr-only" for="passwordInput">Password</label>
+                                                <input type="password" class="form-control" name="passwordInput" placeholder="Passwort" required>
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
@@ -82,7 +84,8 @@ $slots = $view['slots'];
                                         <a href="#">Registrieren</a>
                                     </div>
                                 </div>
-                            </li>
+
+                            </ul>
                 </ul>
             </div>
         </div>
@@ -104,13 +107,13 @@ $slots = $view['slots'];
 
 <?php $slots->output('_content'); ?>
 
-<container>
+<div class="container">
     <footer>
         <div class="panel panel-footer">
             <div class="panel-body">Some footer information</div>
         </div>
     </footer>
-</container>
+</div>
 
 </body>
 </html>

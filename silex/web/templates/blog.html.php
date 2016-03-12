@@ -6,7 +6,7 @@
 
     <div class="col-md-10 col-md-offset-1">
         <div class="well">
-            <form action="/blog" method="post" class="form-horizontal">
+            <form action="/blog_new" method="post" class="form-horizontal">
                 <div class="alert alert-success alert-top" style="display:none">
                     <strong>Erfolg:</strong>
                 </div>

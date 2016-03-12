@@ -1,5 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /***
  * @var $app Silex\Application
@@ -11,7 +12,7 @@ $template = $app['templating'];
 $db_connection = $app['db'];
 $pageHeading = '';
 
-$app->get('/welcome/{name}', function ($name) use ($template) {
+$app->get('/blog/{blogId}', function ($name) use ($template) {
     return $template->render(
         'hello.html.php',
         array('name' => $name)
@@ -28,33 +29,52 @@ $app->get('/', function () use ($template) {
 
 });
 
-
-$app->post('/blog', function (Request $request) use ($template, $db_connection) {
+$app->match('/blog_new', function (Request $request) use ($template, $db_connection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
-    $postTitle = $request->get('postTitle');
-    $post = $request->get('post');
-    $createdAt = date('c');
 
-    if (($postTitle == NULL) && ($post == NULL)) {
-        $alertVisible = TRUE;
-        $alertMessage = "Titel und Text fehlt";
-    } elseif ($postTitle == NULL) {
-        $alertVisible = TRUE;
-        $alertMessage = "Titel fehlt";
-    } elseif ($post == NULL) {
-        $alertVisible = TRUE;
-        $alertMessage = "Text fehlt";
-    } else {
-        $alertVisible = FALSE;
-        $alertMessage = "";
-        $db_connection->insert(
-            'blog_post',
+    $pageHeading = 'Verfassen Sie hier einen neune Post';
+    $alertMessage = ' ';
+    $alertVisible = FALSE;
+    $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post');
+
+    if ($request->isMethod('GET')) {
+        return $template->render(
+            'blog.html.php',
             array(
-                'title' => $postTitle,
-                'text' => $post,
-                'created_at' => $createdAt
-            )
+                'active' => 'blog_new',
+                'alertMessage' => $alertMessage,
+                'alertVisible' => $alertVisible,
+                'pageHeading' => $pageHeading,
+                'blogPosts' => $blogPosts)
         );
+
+    } elseif ($request->isMethod('GET')) {
+        $postTitle = $request->get('postTitle');
+        $post = $request->get('post');
+        $createdAt = date('c');
+
+        if (($postTitle == null) && ($post == null)) {
+            $alertVisible = true;
+            $alertMessage = 'Titel und Text fehlt';
+        } elseif ($postTitle == null) {
+            $alertVisible = true;
+            $alertMessage = 'Titel fehlt';
+        } elseif ($post == null) {
+            $alertVisible = true;
+            $alertMessage = 'Text fehlt';
+        } else {
+            $alertVisible = false;
+            $alertMessage = '';
+            $db_connection->insert(
+                'blog_post',
+                array(
+                    'title' => $postTitle,
+                    'text' => $post,
+                    'created_at' => $createdAt
+                )
+            );
+
+        }
     }
 
     return $template->render(
@@ -67,32 +87,16 @@ $app->post('/blog', function (Request $request) use ($template, $db_connection) 
     );
 });
 
-$app->get('/blog', function (Request $request) use ($template, $db_connection) {
-    /** @var Doctrine\DBAL\Connection $db_connection */
-    $alertMessage = "";
-    $alertVisible = FALSE;
-    $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post');
-
-    return $template->render(
-        'blog.html.php',
-        array(
-            'active' => 'blog',
-            'alertMessage' => $alertMessage,
-            'alertVisible' => $alertVisible,
-            'blogPosts' => $blogPosts,
-            'pageHeading' => $pageHeading
-        )
-    );
-});
-
 $app->get('/blog_show', function (Request $request) use ($template, $db_connection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
     $pageHeading = 'Hier werden Blogposts angezeigt. Ferner ist dies ein nahezu endloser Text, der kaum enden möchte';
+    $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post WHERE id == 3');
     return $template->render(
-        'about.html.php',
+        'blog.html.php',
         array(
             'active' => 'blog_show',
-            'pageHeading' => $pageHeading
+            'pageHeading' => $pageHeading,
+            'blogPost' => $blogPosts
         )
     );
 });
@@ -114,6 +118,27 @@ $app->get('/links', function () use ($template) {
         array(
             'active' => 'links',
             'pageHeading' => $pageHeading
+        ));
+});
+
+$app->post('/login', function (Request $request) use ($app, $template, $db_connection) {
+    $referer = $request->headers->get('referer');
+    $username = $request->get('userInput');
+    $password = $request->get('passwordInput');
+
+    if ('admin' === $username && 'admin' === $password) {
+        $app['session']->set('user', array('username' => $username));
+        return $app->redirect($referer);
+    }
+
+    //$response = new Response();
+    //$response->headers->set('WWW-Authenticate', sprintf('Basic realm="%s"', 'site_login'));
+    //$response->setStatusCode(401, 'Please sign in.');
+    return $template->render(
+        'layout.html.php',
+        array(
+            'active' => ' ',
+            'pageHeading' => 'Login failed'
         ));
 });
 

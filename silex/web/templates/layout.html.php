@@ -3,6 +3,7 @@
  * @var $slots \Symfony\Component\Templating\Helper\SlotsHelper
  * @var $active
  * @var $auth
+ * @var $view
  */
 
 $slots = $view['slots'];
@@ -64,7 +65,7 @@ $slots = $view['slots'];
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form class="form" method="post" action="login" accept-charset="UTF-8"
+                                        <form class="form" method="post" action="/login" accept-charset="UTF-8"
                                               id="login-nav">
                                             <div class="form-group">
                                                 <label class="sr-only" for="email">Email address</label>
@@ -77,7 +78,7 @@ $slots = $view['slots'];
                                                        id="passwordInput" placeholder="Passwort" required>
                                             </div>
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                                <button type="submit" class="btn btn-primary btn-block">Login</button>
                                             </div>
                                             <div class="checkbox">
                                                 <label>

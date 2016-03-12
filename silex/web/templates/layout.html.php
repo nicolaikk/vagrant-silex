@@ -2,6 +2,7 @@
 /**
  * @var $slots \Symfony\Component\Templating\Helper\SlotsHelper
  * @var $active
+ * @var $auth
  *
  */
 
@@ -27,7 +28,6 @@ $slots = $view['slots'];
 </head>
 <body>
 <header>
-    <!-- TODO: login form -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header page-scroll">
@@ -55,8 +55,11 @@ $slots = $view['slots'];
                     <li <?= $active == 'links' ? 'class="active"' : '' ?>>
                         <a href="/links">Links</a>
                     </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
+                    <li <?= $auth ? 'style="display:none"' : '' ?>>
+                        <a href="/logout"><strong>Logout</strong></a>
+                    </li>
+                    <li class="dropdown" <?= $auth ? '' : 'style="display:none"' ?>>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong>Login</strong> <span
                                 class="caret"></span></a>
                         <ul id="login-dp" class="dropdown-menu">
                             <li>
@@ -118,7 +121,6 @@ $slots = $view['slots'];
         </div>
     </footer>
 </div>
-
 </body>
 </html>
 

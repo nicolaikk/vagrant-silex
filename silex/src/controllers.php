@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 $template = $app['templating'];
 $db_connection = $app['db'];
 $pageHeading = '';
+$auth = (null === ($user = $app['session']->get('user')));
 
 $app->get('/blog/{blogId}', function ($name) use ($template) {
     return $template->render(
@@ -19,17 +20,18 @@ $app->get('/blog/{blogId}', function ($name) use ($template) {
     );
 });
 
-$app->get('/', function () use ($template) {
+$app->get('/', function () use ($auth, $template) {
     return $template->render(
         'start.html.php',
         array(
             'active' => 'home',
-            'pageHeading' => 'Start getting productive right now'
+            'pageHeading' => 'Start getting productive right now',
+            'auth' => $auth
         ));
 
 });
 
-$app->match('/blog_new', function (Request $request) use ($app, $template, $db_connection) {
+$app->match('/blog_new', function (Request $request) use ($app, $auth, $template, $db_connection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
 
     $pageHeading = 'Verfassen Sie hier einen neune Post';
@@ -49,7 +51,8 @@ $app->match('/blog_new', function (Request $request) use ($app, $template, $db_c
                 'pageHeading' => $pageHeading,
                 'blogPosts' => $blogPosts,
                 'post' => $post,
-                'postTitle' => $postTitle
+                'postTitle' => $postTitle,
+                'auth' => $auth
             )
         );
 
@@ -82,7 +85,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $template, $db_c
     return $app->redirect('/blog_show');
 });
 
-$app->get('/blog_show', function (Request $request) use ($template, $db_connection) {
+$app->get('/blog_show', function (Request $request) use ($auth, $template, $db_connection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
     $pageHeading = 'Hier werden Blogposts angezeigt. Ferner ist dies ein nahezu endloser Text, der kaum enden möchte';
     $blogPosts = $db_connection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
@@ -91,31 +94,34 @@ $app->get('/blog_show', function (Request $request) use ($template, $db_connecti
         array(
             'active' => 'blog_show',
             'pageHeading' => $pageHeading,
-            'blogPosts' => $blogPosts
+            'blogPosts' => $blogPosts,
+            'auth' => $auth
         )
     );
 });
 
-$app->get('/about', function () use ($template) {
+$app->get('/about', function () use ($auth, $template) {
     return $template->render(
         'about.html.php',
         array(
             'active' => 'about',
-            'pageHeading' => $pageHeading
+            'pageHeading' => $pageHeading,
+            'auth' => $auth
         ));
 });
 
-$app->get('/links', function () use ($template) {
+$app->get('/links', function () use ($auth, $template) {
     $pageHeading = 'Das ist ein Test';
     return $template->render(
         'layout.html.php',
         array(
             'active' => 'links',
-            'pageHeading' => $pageHeading
+            'pageHeading' => $pageHeading,
+            'auth' => $auth
         ));
 });
 
-$app->match('/login', function (Request $request) use ($app, $template, $db_connection) {
+$app->match('/login', function (Request $request) use ($app, $auth, $template, $db_connection) {
     if ($request->isMethod('POST')) {
         $referer = $request->headers->get('referer');
         $email = $request->get('email');
@@ -135,7 +141,8 @@ $app->match('/login', function (Request $request) use ($app, $template, $db_conn
                 'login.html.php',
                 array(
                     'active' => 'links',
-                    'pageHeading' => $email
+                    'pageHeading' => $email,
+                    'auth' => $auth
                 ));
         }
         //$response = new Response();
@@ -147,18 +154,20 @@ $app->match('/login', function (Request $request) use ($app, $template, $db_conn
             'login.html.php',
             array(
                 'active' => 'links',
-                'pageHeading' => 'login'
+                'pageHeading' => 'login',
+                'auth' => $auth
             ));
     }
 });
 
-$app->match('/register', function (Request $request) use ($app, $template, $db_connection) {
+$app->match('/register', function (Request $request) use ($app, $auth, $template, $db_connection) {
     if ($request->isMethod('GET')) {
         return $template->render(
             'register.html.php',
             array(
                 'active' => '',
-                'pageHeading' => 'Registrieren'
+                'pageHeading' => 'Registrieren',
+                'auth' => $auth
             ));
 
     } elseif ($request->isMethod('POST')) {
@@ -187,10 +196,25 @@ $app->match('/register', function (Request $request) use ($app, $template, $db_c
                 'alertMessage' => $alertMessage,
                 'alertVisible' => $alertVisible,
                 'active' => '',
-                'pageHeading' => $username
+                'pageHeading' => $username,
+                'auth' => $auth
             )
         );
     }
+});
+
+$app->get('/account', function () use ($app) {
+    if (null === $user = $app['session']->get('user')) {
+        return "Your not logged in {$user['username']}";
+    }
+
+    return "Welcome {$user['username']}!";
+});
+
+$app->get('/logout', function (Request $request) use ($app) {
+    $referer = $request->headers->get('referer');
+    $app['session']->remove('user');
+    return $app->redirect($referer);
 });
 
 

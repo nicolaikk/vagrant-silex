@@ -29,7 +29,7 @@ $app->get('/', function () use ($template) {
 
 });
 
-$app->match('/blog_new', function (Request $request) use ($template, $db_connection) {
+$app->match('/blog_new', function (Request $request) use ($app, $template, $db_connection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
 
     $pageHeading = 'Verfassen Sie hier einen neune Post';
@@ -56,7 +56,6 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
     } elseif ($request->isMethod('POST')) {
         $postTitle = $request->get('postTitle');
         $post = $request->get('post');
-        $createdAt = date('c');
 
         if (($postTitle == null) && ($post == null)) {
             $alertVisible = true;
@@ -74,31 +73,19 @@ $app->match('/blog_new', function (Request $request) use ($template, $db_connect
                 'blog_post',
                 array(
                     'title' => $postTitle,
-                    'text' => $post,
-                    'created_at' => $createdAt,
+                    'text' => $post
                 )
             );
 
         }
     }
-
-    return $template->render(
-        'blog.html.php',
-        array(
-            'active' => 'blog_new',
-            'alertMessage' => $alertMessage,
-            'alertVisible' => $alertVisible,
-            'pageHeading' => $pageHeading,
-            'post' => $post,
-            'postTitle' => $postTitle
-        )
-    );
+    return $app->redirect('/blog_show');
 });
 
 $app->get('/blog_show', function (Request $request) use ($template, $db_connection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
     $pageHeading = 'Hier werden Blogposts angezeigt. Ferner ist dies ein nahezu endloser Text, der kaum enden möchte';
-    $blogPosts = $db_connection->fetchAssoc('SELECT * FROM blog_post');
+    $blogPosts = $db_connection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
     return $template->render(
         'blog_show.html.php',
         array(

@@ -6,7 +6,7 @@ CREATE TABLE blog_post (
   author     VARCHAR(255),
   title      VARCHAR(255),
   text       TEXT,
-  created_at DATE
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE account (
@@ -14,7 +14,7 @@ CREATE TABLE account (
   username   VARCHAR(255),
   email      VARCHAR(255),
   password   VARCHAR(255),
-  created_at DATE
+  created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE comment (
@@ -22,5 +22,5 @@ CREATE TABLE comment (
   blog_post  INT,
   title      VARCHAR(255),
   text       TEXT,
-  created_at DATE
+  created_at TIMESTAMP DEFAULT NOW()
 );

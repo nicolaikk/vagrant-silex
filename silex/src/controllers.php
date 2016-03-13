@@ -301,12 +301,21 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
     }
 });
 
-$app->get('/account', function () use ($app) {
+$app->get('/account', function () use ($app, $user, $auth, $template) {
     if (null === $user = $app['session']->get('user')) {
         return "Your not logged in {$user}";
     }
-
-    return "Welcome {$user['id']}!";
+    /*return "Welcome {$user['id']}!";*/
+    return $template->render(
+        'account.html.php',
+        array(
+            'active' => '',
+            'auth' => $auth,
+            'userName' => $user['username'],
+            'userId' => $user['id'],
+            'user' => $user['username']
+        )
+    );
 });
 
 $app->get('/logout', function (Request $request) use ($app, $user) {

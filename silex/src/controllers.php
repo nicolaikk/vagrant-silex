@@ -42,7 +42,9 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
             'pageHeading' => $post['title'],
             'post' => $post,
             'nextPost' => $nextPost,
-            'user' => $user['username']
+            'user' => $user['username'],
+            'messageType' => '',
+            'messageText' => ''
         ));
 });
 
@@ -54,8 +56,9 @@ $app->get('/', function () use ($app, $auth, $user, $template) {
             'pageHeading' => 'Start getting productive right now',
             'auth' => $auth,
             'user' => $user['username'],
-            'messageText' => 'alles klar',
-            'messageType' => 'danger'
+            'messageType' => 'danger',
+            'messageText' => 'alles klar'
+
         ));
 
 });
@@ -84,7 +87,10 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
                 'post' => $post,
                 'postTitle' => $postTitle,
                 'auth' => $auth,
-                'user' => $user['username']
+                'user' => $user['username'],
+                'messageType' => '',
+                'messageText' => ''
+
             )
         );
 
@@ -131,7 +137,9 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
             'post' => $post,
             'postTitle' => $postTitle,
             'auth' => $auth,
-            'user' => $user['username']
+            'user' => $user['username'],
+            'messageType' => 'danger',
+            'messageText' => $alertMessage
         )
     );
 });
@@ -151,7 +159,9 @@ $app->get('/blog_show', function (Request $request) use ($auth, $template, $user
             'pageHeading' => $pageHeading,
             'blogPosts' => $blogPosts,
             'auth' => $auth,
-            'user' => $user['username']
+            'user' => $user['username'],
+            'messageType' => '',
+            'messageText' => ''
         )
     );
 });
@@ -163,7 +173,9 @@ $app->get('/about', function () use ($auth, $template, $user) {
             'active' => 'about',
             'pageHeading' => '',
             'auth' => $auth,
-            'user' => $user['username']
+            'user' => $user['username'],
+            'messageType' => '',
+            'messageText' => ''
         ));
 });
 
@@ -175,7 +187,9 @@ $app->get('/links', function () use ($auth, $template, $user) {
             'active' => 'links',
             'pageHeading' => $pageHeading,
             'auth' => $auth,
-            'user' => $user['username']
+            'user' => $user['username'],
+            'messageType' => '',
+            'messageText' => ''
         ));
 });
 
@@ -203,7 +217,9 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                     'pageHeading' => $email,
                     'auth' => $auth,
                     'alertVisible' => true,
-                    'user' => $user['username']
+                    'user' => $user['username'],
+                    'messageType' => 'danger',
+                    'messageText' => 'Email oder Kennwort falsch'
                 ));
         }
 
@@ -215,7 +231,9 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                 'pageHeading' => 'login',
                 'auth' => $auth,
                 'alertVisible' => false,
-                'user' => $user['username']
+                'user' => $user['username'],
+                'messageType' => '',
+            'messageText' => ''
 
             ));
     } else {
@@ -234,7 +252,9 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 'alertVisible' => false,
                 'alertMessage' => '',
                 'successVisible' => false,
-                'user' => $user['username']
+                'user' => $user['username'],
+                'messageType' => '',
+                'messageText' => ''
 
             ));
 
@@ -297,7 +317,9 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 'pageHeading' => $username,
                 'auth' => $auth,
                 'successVisible' => $successVisible,
-                'user' => $user['username']
+                'user' => $user['username'],
+                'messageType' => 'danger',
+                'messageText' => $alertMessage
             )
         );
     }

@@ -16,6 +16,7 @@
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="well">
                 <form action="/blog_new" method="post" class="form-horizontal">
+                    <!--
                     <div class="alert alert-success alert-top" style="display:none">
                         <strong>Erfolg:</strong>
                     </div>
@@ -23,7 +24,7 @@
                         <div class="glyphicon glyphicon-remove" onclick="hideElement('alert alert-danger')"></div>
                         <strong>Fehler:</strong> <?= $alertVisible ? $alertMessage : '' ?>
                     </div>
-
+                    -->
                     <!-- Text input-->
                     <div class="form-group">
                         <label class="col-sm-10 col-sm-offset-1 control-label" for="postTitle">Titel</label>

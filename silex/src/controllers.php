@@ -210,7 +210,10 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
             array(
                 'active' => '',
                 'pageHeading' => 'Registrieren',
-                'auth' => $auth
+                'auth' => $auth,
+                'alertVisible' => false,
+                'alertMessage' => ''
+
             ));
 
     } elseif ($request->isMethod('POST')) {

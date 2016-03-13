@@ -18,7 +18,7 @@
                 </div>
                 <div class="alert alert-danger" <?= $alertVisible ? '' : 'style="display:none"' ?>>
                     <div class="glyphicon glyphicon-remove"></div>
-                    <strong>Fehler:</strong> <?= $alertVisible ? $alertMessage : '' ?>
+                    <strong>Fehler:</strong> <?= $alertMessage ? $alertMessage : '' ?>
                 </div>
                 <form role="form" action="/register" method="post">
                     <div class="form-group">

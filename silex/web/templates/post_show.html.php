@@ -6,7 +6,7 @@
  */
 ?>
 
-<?php $view->extend('layout.html.php') ?>
+<?php $view->extend('imageheader.html.php') ?>
 
 <div class="container-fluid">
     <div class="row first">

@@ -56,7 +56,7 @@ $slots = $view['slots'];
                         <a href="/links">Links</a>
                     </li>
                     <li <?= $auth ? 'style="display:none"' : '' ?>>
-                        <a href="/logout"><strong>Logout</strong></a>
+                        <a href="/logout"><strong><?= $user ?></strong></a>
                     </li>
                     <li class="dropdown" <?= $auth ? '' : 'style="display:none"' ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong>Login</strong> <span

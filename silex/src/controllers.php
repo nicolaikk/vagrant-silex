@@ -76,28 +76,32 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
     } elseif ($request->isMethod('POST')) {
         $postTitle = $request->get('postTitle');
         $post = $request->get('post');
-
-        if (($postTitle == null) && ($post == null)) {
+        if ($auth) {
             $alertVisible = true;
-            $alertMessage = 'Titel und Text fehlt';
-        } elseif ($postTitle == null) {
-            $alertVisible = true;
-            $alertMessage = 'Titel fehlt';
-        } elseif ($post == null) {
-            $alertVisible = true;
-            $alertMessage = 'Text fehlt';
+            $alertMessage = 'Loggen Sie sich bitte ein, um einen post zu verfassen';
         } else {
-            $alertVisible = false;
-            $alertMessage = '';
-            $dbConnection->insert(
-                'blog_post',
-                array(
-                    'title' => $postTitle,
-                    'text' => $post
-                )
-            );
-            return $app->redirect('/blog_show');
+            if (($postTitle == null) && ($post == null)) {
+                $alertVisible = true;
+                $alertMessage = 'Titel und Text fehlt';
+            } elseif ($postTitle == null) {
+                $alertVisible = true;
+                $alertMessage = 'Titel fehlt';
+            } elseif ($post == null) {
+                $alertVisible = true;
+                $alertMessage = 'Text fehlt';
+            } else {
+                $alertVisible = false;
+                $alertMessage = '';
+                $dbConnection->insert(
+                    'blog_post',
+                    array(
+                        'title' => $postTitle,
+                        'text' => $post
+                    )
+                );
+                return $app->redirect('/blog_show');
 
+            }
         }
     }
     return $template->render(

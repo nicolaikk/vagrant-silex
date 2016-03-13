@@ -3,7 +3,7 @@ USE silex;
 -- CREATE YOUR TABLES HERE
 CREATE TABLE blog_post (
   id         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  author     VARCHAR(255),
+  author     INT,
   title      VARCHAR(255),
   text       TEXT,
   created_at TIMESTAMP DEFAULT NOW()
@@ -20,6 +20,7 @@ CREATE TABLE account (
 CREATE TABLE comment (
   id         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   blog_post  INT,
+  author     INT,
   title      VARCHAR(255),
   text       TEXT,
   created_at TIMESTAMP DEFAULT NOW()

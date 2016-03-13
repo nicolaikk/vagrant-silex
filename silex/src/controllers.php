@@ -216,6 +216,8 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                 'user' => $user['username']
 
             ));
+    } else {
+        /*TODO:501 BAD METHOD*/
     }
 });
 

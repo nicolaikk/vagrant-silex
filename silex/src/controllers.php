@@ -12,7 +12,7 @@ $template = $app['templating'];
 $dbConnection = $app['db'];
 $pageHeading = '';
 $auth = (null === ($user = $app['session']->get('user')));
-$user  = $app['session']->get('user');
+$user = $app['session']->get('user');
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
     $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
@@ -25,13 +25,20 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
         $nextPost = false;
     }
     if (!isset($post['id'])) {
+        $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
+                 FROM blog_post INNER JOIN account ON blog_post.author=account.id ORDER BY created_at DESC ';
+        $blogPosts = $dbConnection->fetchAll($sqlQuery);
         return new Response($template->render(
-            '404.html.php',
+            'blog_show.html.php',
             array(
                 'active' => '',
                 'auth' => $auth,
                 'pageHeading' => '',
-                'user' => $user['username']
+                'blogPosts' => $blogPosts,
+                'post' => $post,
+                'user' => $user['username'],
+                'messageType' => 'danger',
+                'messageText' => 'Der gesuchte Post ist nicht in der Datenbank vorhanden'
             )), 404, array('X-Status-Code' => 200));
     }
     return $template->render(
@@ -233,7 +240,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                 'alertVisible' => false,
                 'user' => $user['username'],
                 'messageType' => '',
-            'messageText' => ''
+                'messageText' => ''
 
             ));
     } else {

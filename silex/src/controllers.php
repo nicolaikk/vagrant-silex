@@ -14,10 +14,6 @@ $pageHeading = '';
 $auth = (null === ($user = $app['session']->get('user')));
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $template, $dbConnection) {
-    /*$post = $dbConnection->fetchAssoc(
-    //    'SELECT * FROM blog_post WHERE id = ?',
-    //    array($postId)
-    );*/
     $post = $dbConnection->fetchAssoc(
         'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
          INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?',
@@ -96,8 +92,8 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
                 $alertVisible = true;
                 $alertMessage = 'Text fehlt';
             } else {
-                $alertVisible = false;
-                $alertMessage = '';
+                /*$alertVisible = false;*/
+                /*$alertMessage = '';*/
                 $dbConnection->insert(
                     'blog_post',
                     array(

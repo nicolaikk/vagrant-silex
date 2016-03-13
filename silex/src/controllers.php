@@ -228,10 +228,12 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
         $password1 = $request->get('password1');
         $password2 = $request->get('password2');
         if ($password1 == $password2) {
+            //Vergleich der beiden passwörter
             $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
             $storedUser = $dbConnection->fetchAssoc($sqlQuery);
             $emailSet = isset($storedUser['id']);
             if ($emailSet) {
+                //Datenbankabfrage auf gegebene email
                 $alertMessage = 'Es existiert bereits ein Account mit dieser Email';
                 $alertVisible = true;
                 $successVisible = false;
@@ -240,10 +242,12 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 $storedUser = $dbConnection->fetchAssoc($sqlQuery);
                 $userSet = isset($storedUser['id']);
                 if ($userSet) {
+                    //Datenbankabfrage auf gegebenen username
                     $alertMessage = 'Nutzername ist bereits vergeben';
                     $alertVisible = true;
                     $successVisible = false;
                 } else {
+                    //hier wird ein Account angelegt
                     $dbConnection->insert(
                         'account',
                         array(

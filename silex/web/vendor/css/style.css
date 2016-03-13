@@ -5,8 +5,20 @@ body {
     /*overflow-x: hidden;*/
 }
 
+.floating-message {
+    position: fixed;
+    /*margin-left: 10%;*/
+    /*margin-top: 10%;*/
+    z-index: 10;
+    right:5px;
+    bottom:-16px;
+    /*top: 35px;*/
+    font-size: 16px;
+    /*left: 5px;*/
+}
+
 .first {
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .content-field {

@@ -53,7 +53,9 @@ $app->get('/', function () use ($app, $auth, $user, $template) {
             'active' => 'home',
             'pageHeading' => 'Start getting productive right now',
             'auth' => $auth,
-            'user' => $user['username']
+            'user' => $user['username'],
+            'messageText' => 'alles klar',
+            'messageType' => 'danger'
         ));
 
 });

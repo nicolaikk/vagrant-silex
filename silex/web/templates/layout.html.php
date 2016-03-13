@@ -4,6 +4,8 @@
  * @var $active
  * @var $auth
  * @var $view
+ * @var $messageType
+ * @var $messageText
  */
 
 $slots = $view['slots'];
@@ -112,6 +114,15 @@ $slots = $view['slots'];
 
     </nav>
 </header>
+
+<div class="alert alert-danger floating-message" <?= $messageType == 'danger' ? 'style="display:block"' : 'style="display:none"' ?>>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> <?= $messageText ?>
+</div>
+<div class="alert alert-success floating-message" <?= $messageType == 'success' ? 'style="display:block"' : 'style="display:none"' ?>>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> <?= $messageText ?>
+</div>
 
 <?php $slots->output('_content'); ?>
 <div class="container-fluid">

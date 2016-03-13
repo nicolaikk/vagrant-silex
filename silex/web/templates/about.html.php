@@ -1,2 +1,2 @@
-<?php $view->extend('layout.html.php') ?>
+<?php $view->extend('imageheader.html.php') ?>
 We take productivity pretty seriously!

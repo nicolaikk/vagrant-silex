@@ -2,6 +2,7 @@ body {
     margin-top: 50px;
     font-family: Helvetica, SansSerif;
     height: 100%;
+    overflow-x: hidden;
 }
 
 .first {
@@ -16,7 +17,7 @@ body {
 }
 
 .header-image img {
-    width: 100%;
+    width: 50vw;
     height: 230px;
 }
 
@@ -35,14 +36,7 @@ body {
     height: auto;
 }
 
-.intro-header {
-    padding-top: 50px;
-    color: whitesmoke;
-    background: no-repeat center center;
-    background-size: cover;
-    height: 250px;
-    -webkit-backdrop-filter: blur(10px);
-}
+
 
 h1 {
     color: white;
@@ -101,4 +95,21 @@ html {
     background: url('/images/error404.jpg') no-repeat center;
     background-size: cover;
     height: 100vh;
+}
+
+/* TESTETSTETSTETSTETSTET */
+.img-container {
+    min-height: 400px;
+    background-size: 1800px 400px;
+    background-position: center top;
+    /*padding: 40px; (If don't want to set min-height or some image content is there) */
+}
+
+.intro-header {
+    width: 100vw;
+    padding-top: 50px;
+    color: whitesmoke;
+    background: no-repeat center center;
+    background-size: cover;
+    height: 250px;
 }

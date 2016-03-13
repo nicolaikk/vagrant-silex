@@ -99,14 +99,16 @@ $slots = $view['slots'];
 
     </nav>
 </header>
-<?php $slots->output('_content'); ?>
 
-        <div class="row footer">
-            <div class="col-sm-12">
+<?php $slots->output('_content'); ?>
+<container>
+    <div class="row footer">
+        <div class="col-sm-12">
             Some footer information
-            </div>
         </div>
-    <script src="/vendor/js/scripts.js"></script>
+    </div>
+</container>
+<script src="/vendor/js/scripts.js"></script>
 </body>
 </html>
 

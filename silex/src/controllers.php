@@ -17,8 +17,8 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $template, $dbC
     $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
                  INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
     $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
-    $nextPost = $dbConnection->fetchAssoc($sqlQuery, array($postId+1));
-    if (isset($nextPost['id'])){
+    $nextPost = $dbConnection->fetchAssoc($sqlQuery, array($postId + 1));
+    if (isset($nextPost['id'])) {
         $nextPost = true;
     } else {
         $nextPost = false;
@@ -228,17 +228,35 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
         $password1 = $request->get('password1');
         $password2 = $request->get('password2');
         if ($password1 == $password2) {
-            $dbConnection->insert(
-                'account',
-                array(
-                    'username' => $username,
-                    'email' => $email,
-                    'password' => password_hash($password1, PASSWORD_DEFAULT)
-                )
-            );
-            $alertMessage = '';
-            $alertVisible = false;
-            $successVisible = true;
+            $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
+            $storedUser = $dbConnection->fetchAssoc($sqlQuery);
+            $emailSet = isset($storedUser['id']);
+            if ($emailSet) {
+                $alertMessage = 'Es existiert bereits ein Account mit dieser Email';
+                $alertVisible = true;
+                $successVisible = false;
+            } else {
+                $sqlQuery = "SELECT * FROM account WHERE username = '$username'";
+                $storedUser = $dbConnection->fetchAssoc($sqlQuery);
+                $userSet = isset($storedUser['id']);
+                if ($userSet) {
+                    $alertMessage = 'Nutzername ist bereits vergeben';
+                    $alertVisible = true;
+                    $successVisible = false;
+                } else {
+                    $dbConnection->insert(
+                        'account',
+                        array(
+                            'username' => $username,
+                            'email' => $email,
+                            'password' => password_hash($password1, PASSWORD_DEFAULT)
+                        )
+                    );
+                    $alertMessage = '';
+                    $alertVisible = false;
+                    $successVisible = true;
+                }
+            }
         } else {
             $alertMessage = 'Passwörter stimmen nicht überein';
             $alertVisible = true;

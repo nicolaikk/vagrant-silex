@@ -114,13 +114,11 @@ $slots = $view['slots'];
 
 <?php $slots->output('_content'); ?>
 
-<div class="container">
-    <footer>
-        <div class="panel panel-footer">
-            <div class="panel-body">Some footer information</div>
+        <div class="row footer">
+            <div class="col-sm-12">
+            Some footer information
+            </div>
         </div>
-    </footer>
-</div>
 </body>
 </html>
 

@@ -117,11 +117,11 @@ $slots = $view['slots'];
 
 <div class="alert alert-danger floating-message" <?= $messageType == 'danger' ? 'style="display:block"' : 'style="display:none"' ?>>
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Success!</strong> <?= $messageText ?>
+    <strong>Fehler:</strong> <?= $messageText ?>
 </div>
 <div class="alert alert-success floating-message" <?= $messageType == 'success' ? 'style="display:block"' : 'style="display:none"' ?>>
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Success!</strong> <?= $messageText ?>
+    <strong>Erfolg:</strong> <?= $messageText ?>
 </div>
 
 <?php $slots->output('_content'); ?>

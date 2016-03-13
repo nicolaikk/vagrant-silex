@@ -25,7 +25,7 @@ $app->get('/post/{postId}', function ($postId) use ($auth, $template, $dbConnect
             'auth' => $auth,
             'pageHeading' => $post['title'],
             'post' => $post
-    ));
+        ));
 });
 
 $app->get('/', function () use ($auth, $template) {
@@ -87,15 +87,29 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
                     'text' => $post
                 )
             );
+            return $app->redirect('/blog_show');
 
         }
     }
-    return $app->redirect('/blog_show');
+    return $template->render(
+        'blog.html.php',
+        array(
+            'active' => 'blog_new',
+            'alertMessage' => $alertMessage,
+            'alertVisible' => $alertVisible,
+            'pageHeading' => $pageHeading,
+            'blogPosts' => $blogPosts,
+            'post' => $post,
+            'postTitle' => $postTitle,
+            'auth' => $auth
+        )
+    );
 });
+
 
 $app->get('/blog_show', function (Request $request) use ($auth, $template, $dbConnection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
-    $pageHeading = 'Hier werden Blogposts angezeigt. Ferner ist dies ein nahezu endloser Text, der kaum enden möchte';
+    $pageHeading = 'Blog';
     $blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
     return $template->render(
         'blog_show.html.php',

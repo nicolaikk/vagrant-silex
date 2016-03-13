@@ -25,8 +25,6 @@
                     <strong>Fehler:</strong> <?= $alertVisible ? $alertMessage : '' ?>
                 </div>
 
-                <p>Neuen Blogpost anlegen</p>
-
                 <!-- Text input-->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="postTitle">Titel</label>

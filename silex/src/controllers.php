@@ -14,8 +14,13 @@ $pageHeading = '';
 $auth = (null === ($user = $app['session']->get('user')));
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $template, $dbConnection) {
+    /*$post = $dbConnection->fetchAssoc(
+    //    'SELECT * FROM blog_post WHERE id = ?',
+    //    array($postId)
+    );*/
     $post = $dbConnection->fetchAssoc(
-        'SELECT * FROM blog_post WHERE id = ?',
+        'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
+         INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?',
         array($postId)
     );
     if (!isset($post['id'])) {
@@ -57,6 +62,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
     $post = '';
     $postTitle = '';
     $blogPosts = $dbConnection->fetchAssoc('SELECT * FROM blog_post');
+    $user = $app['session']->get('user');
 
     if ($request->isMethod('GET')) {
         return $template->render(
@@ -96,6 +102,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
                     'blog_post',
                     array(
                         'title' => $postTitle,
+                        'author' => $user['id'],
                         'text' => $post
                     )
                 );
@@ -123,7 +130,11 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
 $app->get('/blog_show', function (Request $request) use ($auth, $template, $dbConnection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
     $pageHeading = 'Blog';
-    $blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
+    //$blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
+    $blogPosts = $dbConnection->fetchAll('SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at,
+                                          account.username FROM blog_post INNER JOIN account ON
+                                          blog_post.author=account.id ORDER BY created_at DESC ');
+
     return $template->render(
         'blog_show.html.php',
         array(
@@ -161,9 +172,9 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
         $referer = $request->headers->get('referer');
         $email = $request->get('email');
         $password = $request->get('passwordInput');
-        $storedHash = $dbConnection->fetchAssoc("SELECT * FROM account WHERE email = '$email'");
-        if (password_verify($password, $storedHash['password'])) {
-            $app['session']->set('user', array('username' => $email));
+        $storedUser = $dbConnection->fetchAssoc("SELECT * FROM account WHERE email = '$email'");
+        if (password_verify($password, $storedUser['password'])) {
+            $app['session']->set('user', array('id' => $storedUser['id']));
             if (parse_url($referer, PHP_URL_PATH) == '/login') {
                 return $app->redirect('/');
             } else {
@@ -237,10 +248,10 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
 
 $app->get('/account', function () use ($app) {
     if (null === $user = $app['session']->get('user')) {
-        return "Your not logged in {$user['username']}";
+        return "Your not logged in {$user}";
     }
 
-    return "Welcome {$user['username']}!";
+    return "Welcome {$user['id']}!";
 });
 
 $app->get('/logout', function (Request $request) use ($app) {

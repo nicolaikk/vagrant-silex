@@ -14,11 +14,15 @@ $pageHeading = '';
 $auth = (null === ($user = $app['session']->get('user')));
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $template, $dbConnection) {
-    $post = $dbConnection->fetchAssoc(
-        'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
-         INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?',
-        array($postId)
-    );
+    $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
+         INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
+    $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
+    $nextPost = $dbConnection->fetchAssoc($sqlQuery, array($postId+1));
+    if (isset($nextPost['id'])){
+        $nextPost = true;
+    } else {
+        $nextPost = false;
+    }
     if (!isset($post['id'])) {
         return new Response($template->render(
             '404.html.php',
@@ -34,7 +38,8 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $template, $dbC
             'active' => 'blog_show',
             'auth' => $auth,
             'pageHeading' => $post['title'],
-            'post' => $post
+            'post' => $post,
+            'nextPost' => $nextPost
         ));
 });
 

@@ -101,13 +101,13 @@ $slots = $view['slots'];
 </header>
 
 <?php $slots->output('_content'); ?>
-<container>
+<div class="container-fluid">
     <div class="row footer">
         <div class="col-sm-12">
             Some footer information
         </div>
     </div>
-</container>
+</div>
 <script src="/vendor/js/scripts.js"></script>
 </body>
 </html>

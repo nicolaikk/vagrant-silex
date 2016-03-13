@@ -10,7 +10,7 @@
 
 
 <div class="container">
-    <div class="row">
+    <div class="row first">
         <div class="col-md-10 col-md-offset-1">
             <div class="well">
                 <div class="alert alert-success alert-top" style="display:none">

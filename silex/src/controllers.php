@@ -15,7 +15,7 @@ $auth = (null === ($user = $app['session']->get('user')));
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $template, $dbConnection) {
     $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
-         INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
+                 INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
     $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
     $nextPost = $dbConnection->fetchAssoc($sqlQuery, array($postId+1));
     if (isset($nextPost['id'])){
@@ -62,7 +62,8 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $template
     $alertVisible = FALSE;
     $post = '';
     $postTitle = '';
-    $blogPosts = $dbConnection->fetchAssoc('SELECT * FROM blog_post');
+    $sqlQuery = 'SELECT * FROM blog_post';
+    $blogPosts = $dbConnection->fetchAssoc($sqlQuery);
     $user = $app['session']->get('user');
 
     if ($request->isMethod('GET')) {
@@ -132,10 +133,9 @@ $app->get('/blog_show', function (Request $request) use ($auth, $template, $dbCo
     /** @var Doctrine\DBAL\Connection $db_connection */
     $pageHeading = 'Blog';
     //$blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
-    $blogPosts = $dbConnection->fetchAll('SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at,
-                                          account.username FROM blog_post INNER JOIN account ON
-                                          blog_post.author=account.id ORDER BY created_at DESC ');
-
+    $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
+                 FROM blog_post INNER JOIN account ON blog_post.author=account.id ORDER BY created_at DESC ';
+    $blogPosts = $dbConnection->fetchAll($sqlQuery);
     return $template->render(
         'blog_show.html.php',
         array(
@@ -173,7 +173,8 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
         $referer = $request->headers->get('referer');
         $email = $request->get('email');
         $password = $request->get('passwordInput');
-        $storedUser = $dbConnection->fetchAssoc("SELECT * FROM account WHERE email = '$email'");
+        $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
+        $storedUser = $dbConnection->fetchAssoc($sqlQuery);
         if (password_verify($password, $storedUser['password'])) {
             $app['session']->set('user', array('id' => $storedUser['id']));
             if (parse_url($referer, PHP_URL_PATH) == '/login') {

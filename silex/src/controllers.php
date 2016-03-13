@@ -188,7 +188,8 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                 array(
                     'active' => 'links',
                     'pageHeading' => $email,
-                    'auth' => $auth
+                    'auth' => $auth,
+                    'alertVisible' => true
                 ));
         }
 
@@ -198,7 +199,9 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
             array(
                 'active' => 'links',
                 'pageHeading' => 'login',
-                'auth' => $auth
+                'auth' => $auth,
+                'alertVisible' => false
+
             ));
     }
 });
@@ -212,7 +215,8 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 'pageHeading' => 'Registrieren',
                 'auth' => $auth,
                 'alertVisible' => false,
-                'alertMessage' => ''
+                'alertMessage' => '',
+                'successVisible' => false
 
             ));
 
@@ -230,11 +234,13 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                     'password' => password_hash($password1, PASSWORD_DEFAULT)
                 )
             );
-            $alertMessage = 'Account angelegt';
+            $alertMessage = '';
             $alertVisible = false;
+            $successVisible = true;
         } else {
             $alertMessage = 'Passwörter stimmen nicht überein';
             $alertVisible = true;
+            $successVisible = false;
         }
         return $template->render(
             'register.html.php',
@@ -243,7 +249,8 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 'alertVisible' => $alertVisible,
                 'active' => '',
                 'pageHeading' => $username,
-                'auth' => $auth
+                'auth' => $auth,
+                'successVisible' => $successVisible
             )
         );
     }

@@ -8,3 +8,9 @@ function resetForm() {
 function checkIfEmpty() {
     document.getElementById("button2id").className = "btn btn-danger";
 }
+
+function hideElement($element){
+    var elements = document.getElementsByClassName($element);
+    var firstElement = elements[0];
+    firstElement.style.display = "none";
+}

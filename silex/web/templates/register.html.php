@@ -13,11 +13,12 @@
     <div class="row first">
         <div class="col-md-10 col-md-offset-1">
             <div class="well">
-                <div class="alert alert-success alert-top" style="display:none">
-                    <strong>Erfolg:</strong>
+                <div class="alert alert-success alert-top" <?= $successVisible ? '' : 'style="display:none"' ?>>
+                    <div class="glyphicon glyphicon-ok" onclick="hideElement('alert alert-success alert-top')"></div>
+                    <strong>Erfolg:</strong> Sie haben einen neuen Benutzer angelegt
                 </div>
                 <div class="alert alert-danger" <?= $alertVisible ? '' : 'style="display:none"' ?>>
-                    <div class="glyphicon glyphicon-remove"></div>
+                    <div class="glyphicon glyphicon-remove" onclick="hideElement('alert alert-danger')"></div>
                     <strong>Fehler:</strong> <?= $alertMessage ? $alertMessage : '' ?>
                 </div>
                 <form role="form" action="/register" method="post">

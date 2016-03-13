@@ -13,11 +13,20 @@ $dbConnection = $app['db'];
 $pageHeading = '';
 $auth = (null === ($user = $app['session']->get('user')));
 
-$app->get('/post/{postId}', function ($postId) use ($auth, $template, $dbConnection) {
+$app->get('/post/{postId}', function ($postId) use ($app, $auth, $template, $dbConnection) {
     $post = $dbConnection->fetchAssoc(
         'SELECT * FROM blog_post WHERE id = ?',
         array($postId)
     );
+    if (!isset($post['id'])) {
+        return new Response($template->render(
+            '404.html.php',
+            array(
+                'active' => '',
+                'auth' => $auth,
+                'pageHeading' => ''
+            )), 404, array('X-Status-Code' => 200));
+    }
     return $template->render(
         'post_show.html.php',
         array(
@@ -167,9 +176,6 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                     'auth' => $auth
                 ));
         }
-        //$response = new Response();
-        //$response->headers->set('WWW-Authenticate', sprintf('Basic realm="%s"', 'site_login'));
-        //$response->setStatusCode(401, 'Please sign in.');
 
     } elseif ($request->isMethod('GET')) {
         return $template->render(
@@ -238,6 +244,9 @@ $app->get('/logout', function (Request $request) use ($app) {
     $app['session']->remove('user');
     return $app->redirect($referer);
 });
+
+
+
 
 
 

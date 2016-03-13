@@ -99,7 +99,7 @@ $slots = $view['slots'];
 
     </nav>
 </header>
-
+<!--
 <header class="row intro-header" style="background-image: url('/images/aerialphoto.jpg')">
     <div class="container">
         <div class="row">
@@ -111,7 +111,7 @@ $slots = $view['slots'];
         </div>
     </div>
 </header>
-
+-->
 <?php $slots->output('_content'); ?>
 
         <div class="row footer">

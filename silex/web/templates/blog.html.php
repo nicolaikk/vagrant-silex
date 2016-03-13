@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="postTitle">Titel</label>
                         <div class="col-md-4">
-                            <input id="postTitle" name="postTitle" autofocus="autofocus"
+                            <input id="postTitle" name="postTitle" autofocus="autofocus" onkeydown="checkIfEmpty()"
                                    type="text" <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
                                    class="form-control input-md"/>
                         </div>
@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="post">Blogeintrag</label>
                         <div class="col-md-4">
-                        <textarea class="form-control" id="post" name="post" rows="10"
+                        <textarea class="form-control" id="post" name="post" rows="10" onkeydown="checkIfEmpty()"
                                   placeholder="Tragen Sie hier Ihren Blogeintrag ein."><?= $post ? $post : '' ?></textarea>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         <label class="col-md-4 control-label" for="button1id"></label>
                         <div class="col-md-8">
                             <button id="button1id" name="button1id" class="btn btn-success">Abschicken</button>
-                            <button id="button2id" name="button2id" class="btn btn-danger">Zurücksetzen</button>
+                            <a id="button2id" name="button2id" class="btn btn-danger disabled" onclick="resetForm()">Zurücksetzen</a>
                         </div>
                     </div>
                 </form>

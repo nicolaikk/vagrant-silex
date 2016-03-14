@@ -60,19 +60,21 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
                 'messageType' => 'danger',
                 'messageText' => 'Der gesuchte Post ist nicht in der Datenbank vorhanden'
             )), 404);
+    } else {
+        $post['text'] = nl2br($post['text']);
+        return $template->render(
+            'post_show.html.php',
+            array(
+                'active' => 'blog_show',
+                'auth' => $auth,
+                'pageHeading' => $post['title'],
+                'post' => $post,
+                'nextPost' => $nextPost,
+                'user' => $user['username'],
+                'messageType' => '',
+                'messageText' => ''
+            ));
     }
-    return $template->render(
-        'post_show.html.php',
-        array(
-            'active' => 'blog_show',
-            'auth' => $auth,
-            'pageHeading' => $post['title'],
-            'post' => $post,
-            'nextPost' => $nextPost,
-            'user' => $user['username'],
-            'messageType' => '',
-            'messageText' => ''
-        ));
 });
 
 $app->get('/', function () use ($app, $auth, $user, $template) {

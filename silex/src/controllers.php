@@ -184,13 +184,13 @@ $app->get('/blog_show', function (Request $request) use ($auth, $template, $user
     );
 });
 
-$app->get('/benutzer', function () use ($auth, $template, $user, $dbConnection) {
+$app->get('/accounts_show', function () use ($auth, $template, $user, $dbConnection) {
     /** @var Doctrine\DBAL\Connection $db_connection */
     //$blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
     $sqlQuery = 'SELECT * FROM account ORDER BY username DESC ';
     $allAccounts = $dbConnection->fetchAll($sqlQuery);
     return $template->render(
-        'benutzer.html.php',
+        'accounts_show.html.php',
         array(
             'active' => 'benutzer',
             'pageHeading' => '',

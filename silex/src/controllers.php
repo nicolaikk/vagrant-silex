@@ -6,13 +6,30 @@ use Symfony\Component\HttpFoundation\Response;
  * @var $app Silex\Application
  * @var $dbConnection Doctrine\DBAL\Connection
  * @var $template Symfony\Component\Templating\DelegatingEngine
- */
+ ***/
 
 $template = $app['templating'];
 $dbConnection = $app['db'];
 $pageHeading = '';
 $auth = (null === ($user = $app['session']->get('user')));
 $user = $app['session']->get('user');
+
+/*BENÖTIGTE ÜBERGABEPARAMETER
+ *
+ * Notification Engine:
+ * - $messageType - Legt art der Nachricht fest
+ * - - 'danger' - rote
+ * - - 'success' - grüne
+ *
+ * Session Management:
+ * - $auth - bool, ist true, wenn Benutzer eingeloggt ist
+ * - $user - beinhaltet Informationen zum Benutzer, der gerade aktiv ist
+ *
+ * Sonstiges:
+ * - pageHeading - Legt Überschrift im Image Header fest, nur möglich, wenn imageheader erweitert wird
+ *
+ */
+
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
     $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post

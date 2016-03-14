@@ -184,7 +184,11 @@ $app->get('/blog_show', function (Request $request) use ($auth, $template, $user
     );
 });
 
-$app->get('/benutzer', function () use ($auth, $template, $user) {
+$app->get('/benutzer', function () use ($auth, $template, $user, $dbConnection) {
+    /** @var Doctrine\DBAL\Connection $db_connection */
+    //$blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
+    $sqlQuery = 'SELECT * FROM account ORDER BY username DESC ';
+    $allAccounts = $dbConnection->fetchAll($sqlQuery);
     return $template->render(
         'benutzer.html.php',
         array(
@@ -193,7 +197,8 @@ $app->get('/benutzer', function () use ($auth, $template, $user) {
             'auth' => $auth,
             'user' => $user['username'],
             'messageType' => '',
-            'messageText' => ''
+            'messageText' => '',
+            'allAccounts' => $allAccounts
         ));
 });
 

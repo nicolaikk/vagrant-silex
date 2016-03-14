@@ -6,6 +6,7 @@
  * @var $view
  * @var $messageType
  * @var $messageText
+ * @var $user
  */
 
 $slots = $view['slots'];
@@ -45,7 +46,7 @@ $slots = $view['slots'];
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li <?= $active == 'blog_new' ? 'class="active"' : '' ?>>
+                    <li <?= $active == 'blog_new' ? 'class="active"' : '' ?> <?= $auth ? 'style="display:none"' : '' ?> >
                         <a href="/blog_new">Neuer Post</a>
                     </li>
                     <li <?= $active == 'blog_show' ? 'class="active"' : '' ?>>

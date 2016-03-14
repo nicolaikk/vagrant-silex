@@ -27,8 +27,9 @@ $user = $app['session']->get('user');
  * - $auth - bool, ist true, wenn Benutzer eingeloggt ist
  * - $user - beinhaltet Informationen zum Benutzer, der gerade aktiv ist
  *
- * Sonstiges:
+ * Styling:
  * - pageHeading - Legt Überschrift im Image Header fest, nur möglich, wenn imageheader erweitert wird
+ * - active - gibt an, welche Seite in der Titelleiste gedrückt angezeigt wird
  *
  */
 
@@ -58,7 +59,7 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
                 'user' => $user['username'],
                 'messageType' => 'danger',
                 'messageText' => 'Der gesuchte Post ist nicht in der Datenbank vorhanden'
-            )), 404, array('X-Status-Code' => 200));
+            )), 404);
     }
     return $template->render(
         'post_show.html.php',
@@ -216,7 +217,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
         $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
         $storedUser = $dbConnection->fetchAssoc($sqlQuery);
         if (password_verify($password, $storedUser['password'])) {
-            $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username']));
+            $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], $storedUser['email'] => 'email'));
             if (parse_url($referer, PHP_URL_PATH) == '/login') {
                 return $app->redirect('/');
             } else {
@@ -300,7 +301,7 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                     );
                     $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
                     $storedUser = $dbConnection->fetchAssoc($sqlQuery);
-                    $app['session']->set('user', array('id' => $storedUser['id']));
+                    $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], $storedUser['email'] => 'email'));
                     $auth = true;//muss hier manuell gesetzt werden
                     return $app->redirect('/');
 
@@ -325,9 +326,17 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
 
 $app->get('/account', function () use ($app, $user, $auth, $template) {
     if (null === $user = $app['session']->get('user')) {
-        return "Your not logged in {$user}";
+        return new Response($template->render(
+            'start.html.php',
+            array(
+                'active' => '',
+                'auth' => $auth,
+                'pageHeading' => '',
+                'user' => $user['username'],
+                'messageType' => 'danger',
+                'messageText' => 'Sie müssen sich einloggen, um Ihr Profil zu bearbeiten'
+            )), 403);
     }
-    /*return "Welcome {$user['id']}!";*/
     return $template->render(
         'account.html.php',
         array(

@@ -10,6 +10,9 @@
 <div class="container">
     <div class="row first">
         <div class="col-md-10 col-md-offset-1">
+            <div class="jumbotron">
+                <h3>Hier können Sie sich für diese Seite anmelden</h3>
+            </div>
             <div class="well">
                 <form role="form" action="/login" method="post">
                     <div class="form-group">

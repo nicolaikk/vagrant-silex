@@ -14,6 +14,9 @@
 <div class="container-fluid">
     <div class="row first">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="jumbotron">
+                <h3>Hier können Sie einen neuen Beitrag schreiben</h3>
+            </div>
             <div class="well">
                 <form action="/blog_new" method="post" class="form-horizontal">
                     <!-- Text input-->

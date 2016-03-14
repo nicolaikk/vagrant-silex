@@ -1,3 +1,7 @@
+$( document ).ready(function() {
+    $(this).removeClass("floating-message").addClass("floating-message");
+});
+
 function resetForm() {
     document.getElementById("post").value = "";
     document.getElementById("postTitle").value = "";

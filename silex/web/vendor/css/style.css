@@ -5,17 +5,37 @@ body {
     /*overflow-x: hidden;*/
 }
 
+/* start css for notification api */
+
 .floating-message {
     position: fixed;
-    /*margin-left: 10%;*/
-    /*margin-top: 10%;*/
     z-index: 10;
-    right:5px;
-    bottom:-16px;
-    /*top: 35px;*/
-    font-size: 16px;
-    /*left: 5px;*/
+    right: 5px;
+    bottom: -16px;
+    font-size: 20px;
+    animation-name: slideOn;
+    animation-duration: 1s;
 }
+
+@keyframes slideIn {
+    from {
+        right: -250px;
+    }
+    to {
+        right: 5px;
+    }
+}
+
+@keyframes slideOn {
+    from {
+        bottom: -100px;
+    }
+    to {
+        bottom: -16px;
+    }
+}
+
+/* end css for notification api*/
 
 .first {
     margin-top: 40px;
@@ -47,8 +67,6 @@ body {
     width: 100%;
     height: auto;
 }
-
-
 
 h1 {
     color: white;
@@ -85,8 +103,6 @@ h3 {
 #login-dp .form-group {
     margin-bottom: 10px;
 }
-
-
 
 html {
     position: relative;

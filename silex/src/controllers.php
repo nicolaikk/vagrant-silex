@@ -63,8 +63,8 @@ $app->get('/', function () use ($app, $auth, $user, $template) {
             'pageHeading' => 'Start getting productive right now',
             'auth' => $auth,
             'user' => $user['username'],
-            'messageType' => 'danger',
-            'messageText' => 'alles klar'
+            'messageType' => '',
+            'messageText' => ''
 
         ));
 
@@ -87,8 +87,6 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
             'blog.html.php',
             array(
                 'active' => 'blog_new',
-                'alertMessage' => $alertMessage,
-                'alertVisible' => $alertVisible,
                 'pageHeading' => $pageHeading,
                 'blogPosts' => $blogPosts,
                 'post' => $post,
@@ -137,8 +135,6 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
         'blog.html.php',
         array(
             'active' => 'blog_new',
-            'alertMessage' => $alertMessage,
-            'alertVisible' => $alertVisible,
             'pageHeading' => $pageHeading,
             'blogPosts' => $blogPosts,
             'post' => $post,
@@ -223,7 +219,6 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                     'active' => 'links',
                     'pageHeading' => $email,
                     'auth' => $auth,
-                    'alertVisible' => true,
                     'user' => $user['username'],
                     'messageType' => 'danger',
                     'messageText' => 'Email oder Kennwort falsch'
@@ -237,7 +232,6 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                 'active' => 'links',
                 'pageHeading' => 'login',
                 'auth' => $auth,
-                'alertVisible' => false,
                 'user' => $user['username'],
                 'messageType' => '',
                 'messageText' => ''
@@ -256,9 +250,6 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 'active' => '',
                 'pageHeading' => 'Registrieren',
                 'auth' => $auth,
-                'alertVisible' => false,
-                'alertMessage' => '',
-                'successVisible' => false,
                 'user' => $user['username'],
                 'messageType' => '',
                 'messageText' => ''
@@ -279,7 +270,6 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 //Datenbankabfrage auf gegebene email
                 $alertMessage = 'Es existiert bereits ein Account mit dieser Email';
                 $alertVisible = true;
-                $successVisible = false;
             } else {
                 $sqlQuery = "SELECT * FROM account WHERE username = '$username'";
                 $storedUser = $dbConnection->fetchAssoc($sqlQuery);
@@ -288,7 +278,6 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                     //Datenbankabfrage auf gegebenen username
                     $alertMessage = 'Nutzername ist bereits vergeben';
                     $alertVisible = true;
-                    $successVisible = false;
                 } else {
                     //hier wird ein Account angelegt
                     $dbConnection->insert(
@@ -302,9 +291,6 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                     $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
                     $storedUser = $dbConnection->fetchAssoc($sqlQuery);
                     $app['session']->set('user', array('id' => $storedUser['id']));
-                    $alertMessage = '';
-                    $alertVisible = false;
-                    $successVisible = true;
                     $auth = true;//muss hier manuell gesetzt werden
                     return $app->redirect('/');
 
@@ -313,17 +299,13 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
         } else {
             $alertMessage = 'Passwörter stimmen nicht überein';
             $alertVisible = true;
-            $successVisible = false;
         }
         return $template->render(
             'register.html.php',
             array(
-                'alertMessage' => $alertMessage,
-                'alertVisible' => $alertVisible,
                 'active' => '',
                 'pageHeading' => $username,
                 'auth' => $auth,
-                'successVisible' => $successVisible,
                 'user' => $user['username'],
                 'messageType' => 'danger',
                 'messageText' => $alertMessage

@@ -23,9 +23,9 @@
                     <div class="form-group">
                         <label class="col-sm-10 col-sm-offset-1 control-label" for="postTitle">Titel</label>
                         <div class="col-sm-10 col-sm-offset-1">
-                            <input id="postTitle" name="postTitle" autofocus="autofocus" onkeydown="checkIfEmpty()"
-                                   type="text" <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>
-                                   class="form-control input-md"/>
+                            <input id="postTitle" name="postTitle" autofocus="autofocus" maxlength="80"
+                                   onkeydown="checkIfEmpty()" type="text" class="form-control input-md"
+                                   <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>/>
                         </div>
                     </div>
 

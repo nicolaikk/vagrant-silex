@@ -122,6 +122,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
 
     } elseif ($request->isMethod('POST')) {
         $postTitle = $request->get('postTitle');
+        $postTitle = substr($postTitle, 0, 80 ); //only allow titles of the length 80
         $post = $request->get('post');
         if ($auth) {
             $alertMessage = 'Loggen Sie sich bitte ein, um einen post zu verfassen';

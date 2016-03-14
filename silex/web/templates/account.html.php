@@ -3,6 +3,8 @@
  * @var $view
  * @var $userName
  * @var $userId
+ * @var $userEmail
+ * @var $userDate
  */
 ?>
 
@@ -11,8 +13,10 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="well">
                 <?php $view->extend('layout.html.php') ?>
-                <?= $userName ?>
+                <?= $user ?>
                 <?= $userId ?>
+                <?= $userEmail ?>
+                <?= $userDate ?>
             </div>
         </div>
     </div>

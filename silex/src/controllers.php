@@ -224,7 +224,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
         $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
         $storedUser = $dbConnection->fetchAssoc($sqlQuery);
         if (password_verify($password, $storedUser['password'])) {
-            $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], $storedUser['email'] => 'email'));
+            $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], 'email' => $storedUser['email'], 'date' => $storedUser['created_at']));
             if (parse_url($referer, PHP_URL_PATH) == '/login') {
                 return $app->redirect('/');
             } else {
@@ -308,7 +308,7 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                     );
                     $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
                     $storedUser = $dbConnection->fetchAssoc($sqlQuery);
-                    $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], $storedUser['email'] => 'email'));
+                    $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], 'email' => $storedUser['email'], 'date' => $storedUser['created_at']));
                     $auth = true;//muss hier manuell gesetzt werden
                     return $app->redirect('/');
 
@@ -349,9 +349,10 @@ $app->get('/account', function () use ($app, $user, $auth, $template) {
         array(
             'active' => '',
             'auth' => $auth,
-            'userName' => $user['username'],
-            'userId' => $user['id'],
             'user' => $user['username'],
+            'userId' => $user['id'],
+            'userEmail' => $user['email'],
+            'userDate' => $user['date'],
             'messageType' => '',
             'messageText' => ''
         )

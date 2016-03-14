@@ -52,8 +52,8 @@ $slots = $view['slots'];
                     <li <?= $active == 'blog_show' ? 'class="active"' : '' ?>>
                         <a href="/blog_show">Blog</a>
                     </li>
-                    <li <?= $active == 'about' ? 'class="active"' : 'class="page-scroll"' ?>>
-                        <a href="/about">About us</a>
+                    <li <?= $active == 'benutzer' ? 'class="active"' : 'class="page-scroll"' ?>>
+                        <a href="/benutzer">Benutzer</a>
                     </li>
                     <li <?= $active == 'links' ? 'class="active"' : '' ?>>
                         <a href="/links">Links</a>

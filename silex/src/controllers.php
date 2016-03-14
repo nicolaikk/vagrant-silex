@@ -184,11 +184,11 @@ $app->get('/blog_show', function (Request $request) use ($auth, $template, $user
     );
 });
 
-$app->get('/about', function () use ($auth, $template, $user) {
+$app->get('/benutzer', function () use ($auth, $template, $user) {
     return $template->render(
-        'about.html.php',
+        'benutzer.html.php',
         array(
-            'active' => 'about',
+            'active' => 'benutzer',
             'pageHeading' => '',
             'auth' => $auth,
             'user' => $user['username'],

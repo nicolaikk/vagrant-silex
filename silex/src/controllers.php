@@ -17,9 +17,11 @@ $user = $app['session']->get('user');
 /*BENÖTIGTE ÜBERGABEPARAMETER
  *
  * Notification Engine:
- * - $messageType - Legt art der Nachricht fest
- * - - 'danger' - rote
- * - - 'success' - grüne
+ * - $messageType - Legt Art der Nachricht fest
+ *   - 'danger'  - rote
+ *   - 'success' - grüne
+ *   - ''        - keine Nachricht
+ * - $messageText - Legt Text der Nachricht fest (Bei keiner Nachricht '' übergeben)
  *
  * Session Management:
  * - $auth - bool, ist true, wenn Benutzer eingeloggt ist
@@ -92,7 +94,6 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
 
     $pageHeading = 'Verfassen Sie hier einen neune Post';
     $alertMessage = '';
-    $alertVisible = FALSE;
     $post = '';
     $postTitle = '';
     $sqlQuery = 'SELECT * FROM blog_post';
@@ -120,21 +121,15 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
         $postTitle = $request->get('postTitle');
         $post = $request->get('post');
         if ($auth) {
-            $alertVisible = true;
             $alertMessage = 'Loggen Sie sich bitte ein, um einen post zu verfassen';
         } else {
             if (($postTitle == null) && ($post == null)) {
-                $alertVisible = true;
                 $alertMessage = 'Titel und Text fehlt';
             } elseif ($postTitle == null) {
-                $alertVisible = true;
                 $alertMessage = 'Titel fehlt';
             } elseif ($post == null) {
-                $alertVisible = true;
                 $alertMessage = 'Text fehlt';
             } else {
-                /*$alertVisible = false;*/
-                /*$alertMessage = '';*/
                 $dbConnection->insert(
                     'blog_post',
                     array(
@@ -286,7 +281,6 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
             if ($emailSet) {
                 //Datenbankabfrage auf gegebene email
                 $alertMessage = 'Es existiert bereits ein Account mit dieser Email';
-                $alertVisible = true;
             } else {
                 $sqlQuery = "SELECT * FROM account WHERE username = '$username'";
                 $storedUser = $dbConnection->fetchAssoc($sqlQuery);
@@ -294,7 +288,6 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 if ($userSet) {
                     //Datenbankabfrage auf gegebenen username
                     $alertMessage = 'Nutzername ist bereits vergeben';
-                    $alertVisible = true;
                 } else {
                     //hier wird ein Account angelegt
                     $dbConnection->insert(
@@ -315,7 +308,6 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
             }
         } else {
             $alertMessage = 'Passwörter stimmen nicht überein';
-            $alertVisible = true;
         }
         return $template->render(
             'register.html.php',
@@ -343,7 +335,9 @@ $app->get('/account', function () use ($app, $user, $auth, $template) {
             'auth' => $auth,
             'userName' => $user['username'],
             'userId' => $user['id'],
-            'user' => $user['username']
+            'user' => $user['username'],
+            'messageType' => '',
+            'messageText' => ''
         )
     );
 });

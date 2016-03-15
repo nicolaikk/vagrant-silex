@@ -319,7 +319,7 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                     /* checks if the username is already in the db */
                     $alertMessage = 'Nutzername ist bereits vergeben';
                 } else {
-                    //hier wird ein Account angelegt
+                    /* creates a new account and generates a hash which is needed for later verification */
                     $dbConnection->insert(
                         'account',
                         array(

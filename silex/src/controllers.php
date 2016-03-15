@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @var $app Silex\Application
  * @var $dbConnection Doctrine\DBAL\Connection
  * @var $template Symfony\Component\Templating\DelegatingEngine
+ * @var Doctrine\DBAL\Connection $db_connection
  ***/
 
 $template = $app['templating'];
@@ -14,22 +15,22 @@ $pageHeading = '';
 $auth = (null === ($user = $app['session']->get('user')));
 $user = $app['session']->get('user');
 
-/*BENÖTIGTE ÜBERGABEPARAMETER
+/*necessary parameters for rendering templates
  *
  * Notification Engine:
- * - $messageType - Legt Art der Nachricht fest
- *   - 'danger'  - rote
- *   - 'success' - grüne
- *   - ''        - keine Nachricht
- * - $messageText - Legt Text der Nachricht fest (Bei keiner Nachricht '' übergeben)
+ * - $messageType - sets what kind of error message pops up
+ *   - 'danger'  - red
+ *   - 'success' - green
+ *   - ''        - no error message
+ * - $messageText - sets the text for the message
  *
  * Session Management:
- * - $auth - bool, ist true, wenn Benutzer eingeloggt ist
- * - $user - beinhaltet Informationen zum Benutzer, der gerade aktiv ist
+ * - $auth - is true if user is logged in
+ * - $user - contains information of the active user
  *
  * Styling:
- * - pageHeading - Legt Überschrift im Image Header fest, nur möglich, wenn imageheader erweitert wird
- * - active - gibt an, welche Seite in der Titelleiste gedrückt angezeigt wird
+ * - pageHeading - sets headline of the imageheader
+ * - active - sets the active link in the navbar
  *
  */
 
@@ -49,6 +50,7 @@ $app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) 
 
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
+    /* creates a page for a single blog post */
     $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
                  INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
     $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
@@ -75,7 +77,7 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
                 'messageText' => 'Der gesuchte Post ist nicht in der Datenbank vorhanden'
             )), 404);
     } else {
-        $post['text'] = nl2br($post['text']);
+        $post['text'] = nl2br($post['text']); /* required to render line breaks the user gave with his input */
         return $template->render(
             'post_show.html.php',
             array(
@@ -92,6 +94,7 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
 });
 
 $app->get('/', function () use ($app, $auth, $user, $template) {
+    /* the start page, this page is also used to react to a few errors */
     return $template->render(
         'start.html.php',
         array(
@@ -107,8 +110,7 @@ $app->get('/', function () use ($app, $auth, $user, $template) {
 });
 
 $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $template, $dbConnection) {
-    /** @var Doctrine\DBAL\Connection $db_connection */
-
+    /* route to write a new blog post - login is required */
     $pageHeading = 'Verfassen Sie hier einen neune Post';
     $alertMessage = '';
     $post = '';
@@ -116,7 +118,6 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
     $sqlQuery = 'SELECT * FROM blog_post';
     $blogPosts = $dbConnection->fetchAssoc($sqlQuery);
     $user = $app['session']->get('user');
-
     if ($request->isMethod('GET')) {
         return $template->render(
             'blog_new.html.php',
@@ -136,7 +137,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
 
     } elseif ($request->isMethod('POST')) {
         $postTitle = $request->get('postTitle');
-        $postTitle = substr($postTitle, 0, 80); //only allow titles of the length 80
+        $postTitle = substr($postTitle, 0, 80); /* only allow titles of the length 80 */
         $post = $request->get('post');
         if ($auth) {
             $alertMessage = 'Loggen Sie sich bitte ein, um einen post zu verfassen';
@@ -180,10 +181,9 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
 });
 
 
-$app->get('/blog_show', function (Request $request) use ($auth, $template, $user, $dbConnection) {
-    /** @var Doctrine\DBAL\Connection $db_connection */
+$app->get('/blog_show', function () use ($auth, $template, $user, $dbConnection) {
+    /* fetches an array of blog posts from the db and renders the using a loop (see blog_show.html.php) */
     $pageHeading = 'Blog';
-    //$blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
     $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
                  FROM blog_post INNER JOIN account ON blog_post.author=account.id ORDER BY created_at DESC ';
     $blogPosts = $dbConnection->fetchAll($sqlQuery);
@@ -202,8 +202,7 @@ $app->get('/blog_show', function (Request $request) use ($auth, $template, $user
 });
 
 $app->get('/accounts_show', function () use ($auth, $template, $user, $dbConnection) {
-    /** @var Doctrine\DBAL\Connection $db_connection */
-    //$blogPosts = $dbConnection->fetchAll('SELECT * FROM blog_post ORDER BY created_at DESC');
+    /* shows list of all users */
     $sqlQuery = 'SELECT * FROM account ORDER BY username DESC ';
     $allAccounts = $dbConnection->fetchAll($sqlQuery);
     return $template->render(
@@ -220,6 +219,7 @@ $app->get('/accounts_show', function () use ($auth, $template, $user, $dbConnect
 });
 
 $app->get('/links', function () use ($auth, $template, $user) {
+    /* page for static content */
     $pageHeading = 'Das ist ein Test';
     return $template->render(
         'layout.html.php',
@@ -234,6 +234,7 @@ $app->get('/links', function () use ($auth, $template, $user) {
 });
 
 $app->match('/login', function (Request $request) use ($app, $auth, $template, $dbConnection, $user) {
+    /* the login page */
     if ($request->isMethod('POST')) {
         $referer = $request->headers->get('referer');
         $email = $request->get('email');
@@ -241,6 +242,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
         $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
         $storedUser = $dbConnection->fetchAssoc($sqlQuery);
         if (password_verify($password, $storedUser['password'])) {
+            /* save way to compare the hashes of the db with the one of the given pwd */
             $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], 'email' => $storedUser['email'], 'date' => $storedUser['created_at']));
             if (parse_url($referer, PHP_URL_PATH) == '/login') {
                 return $app->redirect('/');
@@ -249,7 +251,6 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
             }
 
         } else {
-            //return $app->redirect('/login');
             return $template->render(
                 'login.html.php',
                 array(
@@ -280,6 +281,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
 });
 
 $app->match('/register', function (Request $request) use ($app, $auth, $template, $dbConnection, $user) {
+    /* registration pages - ensures that accounts have different names and email addresses */
     if ($request->isMethod('GET')) {
         return $template->render(
             'register.html.php',
@@ -299,19 +301,19 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
         $password1 = $request->get('password1');
         $password2 = $request->get('password2');
         if ($password1 == $password2) {
-            //Vergleich der beiden passwörter
+            /* checks if the given pwds are the same */
             $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
             $storedUser = $dbConnection->fetchAssoc($sqlQuery);
             $emailSet = isset($storedUser['id']);
             if ($emailSet) {
-                //Datenbankabfrage auf gegebene email
+                /* checks if the email is already in the db */
                 $alertMessage = 'Es existiert bereits ein Account mit dieser Email';
             } else {
                 $sqlQuery = "SELECT * FROM account WHERE username = '$username'";
                 $storedUser = $dbConnection->fetchAssoc($sqlQuery);
                 $userSet = isset($storedUser['id']);
                 if ($userSet) {
-                    //Datenbankabfrage auf gegebenen username
+                    /* checks if the username is already in the db */
                     $alertMessage = 'Nutzername ist bereits vergeben';
                 } else {
                     //hier wird ein Account angelegt
@@ -326,7 +328,6 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                     $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
                     $storedUser = $dbConnection->fetchAssoc($sqlQuery);
                     $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], 'email' => $storedUser['email'], 'date' => $storedUser['created_at']));
-                    $auth = true;//muss hier manuell gesetzt werden
                     return $app->redirect('/');
 
                 }
@@ -349,6 +350,7 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
 });
 
 $app->get('/account', function () use ($app, $user, $auth, $template) {
+    /* gives information of the active account */
     if (null === $user = $app['session']->get('user')) {
         return new Response($template->render(
             'start.html.php',
@@ -377,6 +379,7 @@ $app->get('/account', function () use ($app, $user, $auth, $template) {
 });
 
 $app->get('/logout', function (Request $request) use ($app, $user) {
+    /* removes the user from the session - logout */
     $referer = $request->headers->get('referer');
     $app['session']->remove('user');
     if (isset($referer)) {

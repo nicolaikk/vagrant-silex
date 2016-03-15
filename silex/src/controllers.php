@@ -50,7 +50,7 @@ $app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) 
 
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
-    /* creates a page for a single blog post */
+    /* this is for the single post page */
     $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
                  INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
     $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
@@ -149,8 +149,9 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
             } elseif ($post == null) {
                 $alertMessage = 'Text fehlt';
             } else {
-                $app->escape($postTitle);
-                $app->escape($post);
+                /* escaping to prevent xss */
+                $postTitle = htmlentities($postTitle);
+                $post = htmlentities($post);
                 $dbConnection->insert(
                     'blog_post',
                     array(
@@ -300,6 +301,8 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
         $email = $request->get('email');
         $password1 = $request->get('password1');
         $password2 = $request->get('password2');
+        $username = htmlentities($username);
+        $email = htmlentities($email);
         if ($password1 == $password2) {
             /* checks if the given pwds are the same */
             $sqlQuery = "SELECT * FROM account WHERE email = '$email'";

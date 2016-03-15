@@ -61,7 +61,7 @@ $slots = $view['slots'];
                     <li class="dropdown" <?= $auth ? 'style="display:none"' : '' ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong><?= $user ?></strong> <span
                                 class="caret"></span></a>
-                        <ul id="login-dp" class="dropdown-menu">
+                        <ul class="dropdown-menu login-dp">
                             <li>
                                 <div class="form-group">
                                     <a href="/account" class="btn btn-primary btn-block">Account</a>
@@ -77,7 +77,7 @@ $slots = $view['slots'];
                     <li class="dropdown" <?= $auth ? '' : 'style="display:none"' ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong>Login</strong> <span
                                 class="caret"></span></a>
-                        <ul id="login-dp" class="dropdown-menu">
+                        <ul class="dropdown-menu login-dp">
                             <li>
                                 <div class="row">
                                     <div class="col-md-12">

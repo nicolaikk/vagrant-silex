@@ -75,7 +75,7 @@ h3 {
 }
 
 /* Login drop down menu */
-#login-dp {
+.login-dp {
     min-width: 250px;
     padding: 14px 14px 0;
     overflow: hidden;
@@ -83,7 +83,7 @@ h3 {
     color: whitesmoke;
 }
 
-#login-dp .bottom {
+.login-dp .bottom {
     background-color: rgba(2, 2, 2, .8);
     border-top: 1px solid #222;
     clear: both;

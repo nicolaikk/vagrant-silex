@@ -122,7 +122,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
 
     } elseif ($request->isMethod('POST')) {
         $postTitle = $request->get('postTitle');
-        $postTitle = substr($postTitle, 0, 80 ); //only allow titles of the length 80
+        $postTitle = substr($postTitle, 0, 80); //only allow titles of the length 80
         $post = $request->get('post');
         if ($auth) {
             $alertMessage = 'Loggen Sie sich bitte ein, um einen post zu verfassen';
@@ -363,7 +363,11 @@ $app->get('/account', function () use ($app, $user, $auth, $template) {
 $app->get('/logout', function (Request $request) use ($app, $user) {
     $referer = $request->headers->get('referer');
     $app['session']->remove('user');
-    return $app->redirect($referer);
+    if (isset($referer)) {
+        return $app->redirect($referer);
+    } else {
+        return $app->redirect('/');
+    }
 });
 
 

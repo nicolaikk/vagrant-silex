@@ -33,6 +33,20 @@ $user = $app['session']->get('user');
  *
  */
 
+$app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) {
+    /* standard error page */
+    return new Response($template->render(
+        'start.html.php',
+        array(
+            'active' => '',
+            'auth' => $auth,
+            'pageHeading' => '',
+            'user' => $user['username'],
+            'messageType' => 'danger',
+            'messageText' => 'Ein Fehler ist aufgetreten, die von Ihnen angefragte Seite konnte nicht gefunden werden.'
+        )), 404);
+});
+
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
     $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
@@ -105,7 +119,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
 
     if ($request->isMethod('GET')) {
         return $template->render(
-            'blog.html.php',
+            'blog_new.html.php',
             array(
                 'active' => 'blog_new',
                 'pageHeading' => $pageHeading,
@@ -134,6 +148,8 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
             } elseif ($post == null) {
                 $alertMessage = 'Text fehlt';
             } else {
+                $app->escape($postTitle);
+                $app->escape($post);
                 $dbConnection->insert(
                     'blog_post',
                     array(
@@ -148,7 +164,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
         }
     }
     return $template->render(
-        'blog.html.php',
+        'blog_new.html.php',
         array(
             'active' => 'blog_new',
             'pageHeading' => $pageHeading,

@@ -43,7 +43,7 @@
                         <label class="col-sm-10 col-sm-offset-1 control-label" for="button1id"></label>
                         <div class="col-sm-10 col-sm-offset-1">
                             <button id="button1id" name="button1id" class="btn btn-success">Abschicken</button>
-                            <a id="button2id" name="button2id" class="btn btn-danger disabled" onclick="resetForm()">Zurücksetzen</a>
+                            <a id="button2id" class="btn btn-danger disabled" onclick="resetForm()">Zurücksetzen</a>
                         </div>
                     </div>
                 </form>

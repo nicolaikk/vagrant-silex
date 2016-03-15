@@ -242,9 +242,13 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
         $password = $request->get('passwordInput');
         $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
         $storedUser = $dbConnection->fetchAssoc($sqlQuery);
-        if (password_verify($password, $storedUser['password'])) {
-            /* save way to compare the hashes of the db with the one of the given pwd */
-            $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], 'email' => $storedUser['email'], 'date' => $storedUser['created_at']));
+        if (password_verify($password, $storedUser['password'])) {/* save way to verify the pwd */
+            $sessionParameters = array(
+                'id' => $storedUser['id'],
+                'username' => $storedUser['username'],
+                'email' => $storedUser['email'],
+                'date' => $storedUser['created_at']);
+            $app['session']->set('user', $sessionParameters);
             if (parse_url($referer, PHP_URL_PATH) == '/login') {
                 return $app->redirect('/');
             } else {
@@ -330,7 +334,12 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                     );
                     $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
                     $storedUser = $dbConnection->fetchAssoc($sqlQuery);
-                    $app['session']->set('user', array('id' => $storedUser['id'], 'username' => $storedUser['username'], 'email' => $storedUser['email'], 'date' => $storedUser['created_at']));
+                    $sessionParameters = array(
+                        'id' => $storedUser['id'],
+                        'username' => $storedUser['username'],
+                        'email' => $storedUser['email'],
+                        'date' => $storedUser['created_at']);
+                    $app['session']->set('user', $sessionParameters);
                     return $app->redirect('/');
 
                 }

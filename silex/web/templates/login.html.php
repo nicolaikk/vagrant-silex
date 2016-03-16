@@ -24,7 +24,7 @@
                         <input type="password" class="form-control" name="passwordInput" id="pwd">
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox">Eingeloggt bleiben</label>
+                        <label><input type="checkbox" name="stayLogged">Eingeloggt bleiben</label>
                     </div>
                     <button type="submit" class="btn btn-default">Login</button>
                 </form>

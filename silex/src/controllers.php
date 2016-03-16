@@ -264,6 +264,10 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
         $referer = $request->headers->get('referer');
         $email = $request->get('email');
         $password = $request->get('passwordInput');
+        $stayLogged = $request->get('stayLogged');
+        if ($stayLogged) {
+            $app['session.cookie_lifetime'] = 37000000; /* i hope this approximates the number of seconds in a year */
+        }
         $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
         $storedUser = $dbConnection->fetchAssoc($sqlQuery);
         if (password_verify($password, $storedUser['password'])) {/* save way to verify the pwd */

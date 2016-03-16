@@ -52,8 +52,8 @@ $app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) 
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
     /* this is for the single post page */
-    $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username FROM blog_post
-                 INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
+    $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.author, blog_post.text, blog_post.created_at,
+                account.username FROM blog_post INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
     $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
     $nextPost = $dbConnection->fetchAssoc($sqlQuery, array($postId + 1));
     if (isset($nextPost['id'])) {
@@ -227,7 +227,7 @@ $app->get('/account/{author}', function ($author) use ($app, $auth, $user, $temp
     /* $sqlQuery = "SELECT * FROM blog_post WHERE author = $author ORDER BY id DESC"; */
     $blogPosts = $dbConnection->fetchAll($sqlQuery);
     return $template->render(
-        'blog_show.html.php',
+        'account_blog_show.html.php',
         array(
             'active' => 'blog_show',
             'pageHeading' => '',

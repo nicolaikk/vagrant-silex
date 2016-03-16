@@ -12,7 +12,7 @@
     <div class="row first">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="well">
-                <p>by <strong><?= $post['username'] ?></strong> - <em><?= $post['created_at'] ?></em></p>
+                <p>by <strong><a href="/account/<?= $post['author'] ?>"><?= $post['username'] ?></a></strong> - <em><?= $post['created_at'] ?></em></p>
                 <p><span class="content-field"><?= $post['text'] ?></span></p>
                 <hr/>
                 <ul class="pager">

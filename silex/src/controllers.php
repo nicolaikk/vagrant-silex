@@ -35,19 +35,19 @@ $user = $app['session']->get('user');
  */
 
 
-//$app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) {
+$app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) {
     /* standard error page */
-//    return new Response($template->render(
-//        'start.html.php',
-//        array(
-//            'active' => '',
-//            'auth' => $auth,
-//            'pageHeading' => '',
-//            'user' => $user['username'],
-//            'messageType' => 'danger',
-//            'messageText' => 'Ein Fehler ist aufgetreten, die von Ihnen angefragte Seite konnte nicht gefunden werden.'
-//        )), 404);
-//});
+    return new Response($template->render(
+        'start.html.php',
+        array(
+            'active' => '',
+            'auth' => $auth,
+            'pageHeading' => '',
+            'user' => $user['username'],
+            'messageType' => 'danger',
+            'messageText' => 'Ein Fehler ist aufgetreten, die von Ihnen angefragte Seite konnte nicht gefunden werden.'
+        )), 404);
+});
 
 
 $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
@@ -220,15 +220,17 @@ $app->get('/accounts_show', function () use ($auth, $template, $user, $dbConnect
         ));
 });
 
-$app->get('/account/{$author}', function ($author) use ($app, $auth, $user, $template, $dbConnection) {
-    /* i have no idea why this isn't working */
-    $sqlQuery = "SELECT * FROM blog_post WHERE author = $author ORDER BY id DESC";
+$app->get('/account/{author}', function ($author) use ($app, $auth, $user, $template, $dbConnection) {
+    /* show all blog post of an author */
+    $sqlQuery = "SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
+                 FROM blog_post INNER JOIN account ON blog_post.author=account.id WHERE author = $author ORDER BY created_at DESC ";
+    /* $sqlQuery = "SELECT * FROM blog_post WHERE author = $author ORDER BY id DESC"; */
     $blogPosts = $dbConnection->fetchAll($sqlQuery);
     return $template->render(
         'blog_show.html.php',
         array(
             'active' => 'blog_show',
-            'pageHeading' => $pageHeading,
+            'pageHeading' => '',
             'blogPosts' => $blogPosts,
             'auth' => $auth,
             'user' => $user['username'],

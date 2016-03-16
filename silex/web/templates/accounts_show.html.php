@@ -24,7 +24,7 @@
                     <tbody>
                     <?php foreach ($allAccounts as $account) : ?>
                         <tr>
-                            <td><?= $account['username'] ?></td>
+                            <td><a href="/account/<?= $account['id'] ?>"><?= $account['username'] ?></a></td>
                             <td><?= $account['email'] ?></td>
                             <td><?= $account['id'] ?></td>
                             <td><?= $account['created_at'] ?></td>

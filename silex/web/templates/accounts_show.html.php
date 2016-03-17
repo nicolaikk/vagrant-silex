@@ -12,26 +12,26 @@
 <div class="container-fluid">
     <div class="row first">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <table class="table table-hover">
-                    <thead>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Benutzername</th>
+                    <th>Email</th>
+                    <th>Benutzernummer</th>
+                    <th>Registriert seit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($allAccounts as $account) : ?>
                     <tr>
-                        <th>Benutzername</th>
-                        <th>Email</th>
-                        <th>Benutzernummer</th>
-                        <th>Registriert seit</th>
+                        <td><a href="/account/<?= $account['id'] ?>"><?= $account['username'] ?></a></td>
+                        <td><?= $account['email'] ?></td>
+                        <td><?= $account['id'] ?></td>
+                        <td><?= $account['created_at'] ?></td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($allAccounts as $account) : ?>
-                        <tr>
-                            <td><a href="/account/<?= $account['id'] ?>"><?= $account['username'] ?></a></td>
-                            <td><?= $account['email'] ?></td>
-                            <td><?= $account['id'] ?></td>
-                            <td><?= $account['created_at'] ?></td>
-                        </tr>
-                    <?php endforeach ?>
-                    </tbody>
-                </table>
+                <?php endforeach ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

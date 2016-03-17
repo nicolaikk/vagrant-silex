@@ -25,7 +25,7 @@
                         <div class="col-sm-10 col-sm-offset-1">
                             <input id="postTitle" name="postTitle" autofocus="autofocus" maxlength="80"
                                    onkeydown="checkIfEmpty()" type="text" class="form-control input-md"
-                                   <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>/>
+                                <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>/>
                         </div>
                     </div>
 

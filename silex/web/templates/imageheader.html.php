@@ -9,12 +9,11 @@ $slots = $view['slots'];
 
 <?php $view->extend('layout.html.php') ?>
 
-        <div class="intro-header" style="background-image: url('/images/aerialphoto.jpg')">
-            <div class="col-md-8 col-md-offset-2">
-                <h1><?= $pageHeading ?></h1>
-            </div>
-        </div>
-
+<div class="intro-header">
+    <div class="col-md-8 col-md-offset-2">
+        <h1><?= $pageHeading ?></h1>
+    </div>
+</div>
 
 
 <?php $slots->output('_content'); ?>

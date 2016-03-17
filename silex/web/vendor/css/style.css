@@ -106,6 +106,7 @@ h3 {
     background: no-repeat center center;
     background-size: cover;
     height: 250px;
+    background-image: url('/images/aerialphoto.jpg')
 }
 
 .footer {

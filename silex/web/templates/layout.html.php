@@ -132,7 +132,7 @@ $slots = $view['slots'];
 <div class="container-fluid">
     <div class="row footer">
         <div class="col-sm-12">
-            Some footer information
+            Page by Nicolai K. - Images stolen from pixabay.com (CC0 Public Domain)
         </div>
     </div>
 </div>

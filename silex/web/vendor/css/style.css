@@ -106,7 +106,8 @@ h3 {
     background: no-repeat center center;
     background-size: cover;
     height: 250px;
-    background-image: url('/images/aerialphoto.jpg')
+    /* change following line to change the image in the header and prettify the page   */
+    background-image: url('/images/forrest.jpg');
 }
 
 .footer {
@@ -116,4 +117,7 @@ h3 {
     height: 50px;
     background-color: #222222; /* the same color as the dark bootstrap header */
     color: whitesmoke;
+    text-align: center;
+    padding-top: 10px;
 }
+

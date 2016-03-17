@@ -49,53 +49,6 @@ $app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) 
         )), 404);
 });
 
-
-$app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
-    /* this is for the single post page */
-    $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.author, blog_post.text, blog_post.created_at,
-                account.username FROM blog_post INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
-    $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
-    $nextPost = $dbConnection->fetchAssoc($sqlQuery, array($postId + 1));
-    if (!empty($nextPost['id'])) {
-        $nextPost = true;
-    } else {
-        $nextPost = false;
-    }
-    if (empty($post['id'])) {
-        /* if there is no post with the given id: */
-        $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
-                 FROM blog_post INNER JOIN account ON blog_post.author=account.id ORDER BY created_at DESC ';
-        $blogPosts = $dbConnection->fetchAll($sqlQuery);
-        return new Response($template->render(
-            'blog_show.html.php',
-            array(
-                'active' => '',
-                'auth' => $auth,
-                'pageHeading' => '',
-                'blogPosts' => $blogPosts,
-                'post' => $post,
-                'user' => $user['username'],
-                'messageType' => 'danger',
-                'messageText' => 'Der gesuchte Post ist nicht in der Datenbank vorhanden'
-            )), 404);
-    } else {
-        /* if the post id is in the db: */
-        $post['text'] = nl2br($post['text']); /* required to render line breaks the user gave with his input */
-        return $template->render(
-            'post_show.html.php',
-            array(
-                'active' => 'blog_show',
-                'auth' => $auth,
-                'pageHeading' => $post['title'],
-                'post' => $post,
-                'nextPost' => $nextPost,
-                'user' => $user['username'],
-                'messageType' => '',
-                'messageText' => ''
-            ));
-    }
-});
-
 $app->get('/', function () use ($app, $auth, $user, $template) {
     /* the start page, this page is also used to react to a few errors */
     return $template->render(
@@ -111,6 +64,7 @@ $app->get('/', function () use ($app, $auth, $user, $template) {
         ));
 
 });
+
 
 $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $template, $dbConnection) {
     /* route to write a new blog post - login is required */
@@ -230,8 +184,54 @@ $app->get('/accounts_show', function () use ($auth, $template, $user, $dbConnect
         ));
 });
 
+$app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $template, $dbConnection) {
+    /* this is for the single post page */
+    $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.author, blog_post.text, blog_post.created_at,
+                account.username FROM blog_post INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
+    $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
+    $nextPost = $dbConnection->fetchAssoc($sqlQuery, array($postId + 1));
+    if (!empty($nextPost['id'])) {
+        $nextPost = true;
+    } else {
+        $nextPost = false;
+    }
+    if (empty($post['id'])) {
+        /* if there is no post with the given id: */
+        $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
+                 FROM blog_post INNER JOIN account ON blog_post.author=account.id ORDER BY created_at DESC ';
+        $blogPosts = $dbConnection->fetchAll($sqlQuery);
+        return new Response($template->render(
+            'blog_show.html.php',
+            array(
+                'active' => '',
+                'auth' => $auth,
+                'pageHeading' => '',
+                'blogPosts' => $blogPosts,
+                'post' => $post,
+                'user' => $user['username'],
+                'messageType' => 'danger',
+                'messageText' => 'Der gesuchte Post ist nicht in der Datenbank vorhanden'
+            )), 404);
+    } else {
+        /* if the post id is in the db: */
+        $post['text'] = nl2br($post['text']); /* required to render line breaks the user gave with his input */
+        return $template->render(
+            'post_show.html.php',
+            array(
+                'active' => 'blog_show',
+                'auth' => $auth,
+                'pageHeading' => $post['title'],
+                'post' => $post,
+                'nextPost' => $nextPost,
+                'user' => $user['username'],
+                'messageType' => '',
+                'messageText' => ''
+            ));
+    }
+});
+
 $app->get('/account/{author}', function ($author) use ($app, $auth, $user, $template, $dbConnection) {
-    /* show all blog post of an author */
+    /* shows all blog post of an author */
     $sqlQuery = "SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
                  FROM blog_post INNER JOIN account ON blog_post.author=account.id WHERE author = $author ORDER BY created_at DESC ";
     $blogPosts = $dbConnection->fetchAll($sqlQuery);

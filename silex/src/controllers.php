@@ -56,12 +56,13 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
                 account.username FROM blog_post INNER JOIN account ON blog_post.author=account.id WHERE blog_post.id = ?';
     $post = $dbConnection->fetchAssoc($sqlQuery, array($postId));
     $nextPost = $dbConnection->fetchAssoc($sqlQuery, array($postId + 1));
-    if (isset($nextPost['id'])) {
+    if (!empty($nextPost['id'])) {
         $nextPost = true;
     } else {
         $nextPost = false;
     }
-    if (!isset($post['id'])) {
+    if (empty($post['id'])) {
+        /* if there is no post with the given id: */
         $sqlQuery = 'SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
                  FROM blog_post INNER JOIN account ON blog_post.author=account.id ORDER BY created_at DESC ';
         $blogPosts = $dbConnection->fetchAll($sqlQuery);
@@ -78,6 +79,7 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
                 'messageText' => 'Der gesuchte Post ist nicht in der Datenbank vorhanden'
             )), 404);
     } else {
+        /* if the post id is in the db: */
         $post['text'] = nl2br($post['text']); /* required to render line breaks the user gave with his input */
         return $template->render(
             'post_show.html.php',
@@ -112,22 +114,15 @@ $app->get('/', function () use ($app, $auth, $user, $template) {
 
 $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $template, $dbConnection) {
     /* route to write a new blog post - login is required */
-    $pageHeading = 'Verfassen Sie hier einen neune Post';
-    $alertMessage = '';
-    $post = '';
-    $postTitle = '';
-    $sqlQuery = 'SELECT * FROM blog_post';
-    $blogPosts = $dbConnection->fetchAssoc($sqlQuery);
     $user = $app['session']->get('user');
     if ($request->isMethod('GET')) {
         return $template->render(
             'blog_new.html.php',
             array(
                 'active' => 'blog_new',
-                'pageHeading' => $pageHeading,
-                'blogPosts' => $blogPosts,
-                'post' => $post,
-                'postTitle' => $postTitle,
+                'pageHeading' => 'Verfassen Sie hier einen neune Post',
+                'post' => '',
+                'postTitle' => '',
                 'auth' => $auth,
                 'user' => $user['username'],
                 'messageType' => '',
@@ -143,6 +138,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
         if ($auth) {
             $alertMessage = 'Loggen Sie sich bitte ein, um einen post zu verfassen';
         } else {
+            /* if the user is logged in: */
             if (($postTitle == null) && ($post == null)) {
                 $alertMessage = 'Titel und Text fehlt';
             } elseif ($postTitle == null) {
@@ -150,8 +146,8 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
             } elseif ($post == null) {
                 $alertMessage = 'Text fehlt';
             } else {
-                /* escaping to prevent xss */
-                $postTitle = htmlentities($postTitle);
+                /* the post is valid */
+                $postTitle = htmlentities($postTitle);/* escaping to prevent xss */
                 $post = htmlentities($post);
                 $dbConnection->insert(
                     'blog_post',
@@ -165,22 +161,36 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
 
             }
         }
+        /* this is what is rendered if the method is post */
+        return $template->render(
+            'blog_new.html.php',
+            array(
+                'active' => 'blog_new',
+                'pageHeading' => $pageHeading,
+                'blogPosts' => $blogPosts,
+                'post' => $post,
+                'postTitle' => $postTitle,
+                'auth' => $auth,
+                'user' => $user['username'],
+                'messageType' => 'danger',
+                'messageText' => $alertMessage
+            )
+        );
     }
-    return $template->render(
-        'blog_new.html.php',
+    /* and this when the method isn't get or post */
+    return new Response($template->render(
+        'start.html.php',
         array(
-            'active' => 'blog_new',
-            'pageHeading' => $pageHeading,
+            'active' => 'blog_show',
+            'pageHeading' => '',
             'blogPosts' => $blogPosts,
-            'post' => $post,
-            'postTitle' => $postTitle,
             'auth' => $auth,
             'user' => $user['username'],
             'messageType' => 'danger',
-            'messageText' => $alertMessage
-        )
-    );
-});
+            'messageText' => 'Verwenden Sie bitte get/post Methoden'
+        )), 405);
+}
+);
 
 
 $app->get('/blog_show', function () use ($auth, $template, $user, $dbConnection) {
@@ -224,21 +234,34 @@ $app->get('/account/{author}', function ($author) use ($app, $auth, $user, $temp
     /* show all blog post of an author */
     $sqlQuery = "SELECT blog_post.id, blog_post.title, blog_post.text, blog_post.created_at, account.username
                  FROM blog_post INNER JOIN account ON blog_post.author=account.id WHERE author = $author ORDER BY created_at DESC ";
-    /* $sqlQuery = "SELECT * FROM blog_post WHERE author = $author ORDER BY id DESC"; */
     $blogPosts = $dbConnection->fetchAll($sqlQuery);
-    return $template->render(
-        'account_blog_show.html.php',
-        array(
-            'active' => 'blog_show',
-            'pageHeading' => '',
-            'blogPosts' => $blogPosts,
-            'auth' => $auth,
-            'user' => $user['username'],
-            'messageType' => '',
-            'messageText' => ''
-        )
-    );
-
+    if (empty($blogPosts)) {
+        /* if there is no user with the given id in the db: */
+        return new Response($template->render(
+            'start.html.php',
+            array(
+                'active' => 'blog_show',
+                'pageHeading' => '',
+                'blogPosts' => $blogPosts,
+                'auth' => $auth,
+                'user' => $user['username'],
+                'messageType' => 'danger',
+                'messageText' => 'Der gesuchte Benutzer ist nicht in der Datenbank'
+            )), 404);
+    } else {
+        return $template->render(
+            'account_blog_show.html.php',
+            array(
+                'active' => 'blog_show',
+                'pageHeading' => '',
+                'blogPosts' => $blogPosts,
+                'auth' => $auth,
+                'user' => $user['username'],
+                'messageType' => '',
+                'messageText' => ''
+            )
+        );
+    }
 });
 
 
@@ -270,6 +293,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
         $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
         $storedUser = $dbConnection->fetchAssoc($sqlQuery);
         if (password_verify($password, $storedUser['password'])) {/* save way to verify the pwd */
+            /* if the pwd is right: */
             $sessionParameters = array(
                 'id' => $storedUser['id'],
                 'username' => $storedUser['username'],
@@ -283,6 +307,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
             }
 
         } else {
+            /* if the pwd is wrong: */
             return $template->render(
                 'login.html.php',
                 array(
@@ -308,12 +333,23 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
 
             ));
     } else {
-        /*TODO:501 BAD METHOD*/
+        /* if method is nor get or post */
+        return new Response($template->render(
+            'start.html.php',
+            array(
+                'active' => 'blog_show',
+                'pageHeading' => '',
+                'blogPosts' => $blogPosts,
+                'auth' => $auth,
+                'user' => $user['username'],
+                'messageType' => 'danger',
+                'messageText' => 'Verwenden Sie bitte get/post Methoden'
+            )), 405);
     }
 });
 
 $app->match('/register', function (Request $request) use ($app, $auth, $template, $dbConnection, $user) {
-    /* registration pages - ensures that accounts have different names and email addresses */
+    /* registration page - ensures that accounts have different names and email addresses */
     if ($request->isMethod('GET')) {
         return $template->render(
             'register.html.php',
@@ -338,14 +374,14 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
             /* checks if the given pwds are the same */
             $sqlQuery = "SELECT * FROM account WHERE email = '$email'";
             $storedUser = $dbConnection->fetchAssoc($sqlQuery);
-            $emailSet = isset($storedUser['id']);
+            $emailSet = !empty($storedUser['id']);
             if ($emailSet) {
                 /* checks if the email is already in the db */
                 $alertMessage = 'Es existiert bereits ein Account mit dieser Email';
             } else {
                 $sqlQuery = "SELECT * FROM account WHERE username = '$username'";
                 $storedUser = $dbConnection->fetchAssoc($sqlQuery);
-                $userSet = isset($storedUser['id']);
+                $userSet = !empty($storedUser['id']);
                 if ($userSet) {
                     /* checks if the username is already in the db */
                     $alertMessage = 'Nutzername ist bereits vergeben';

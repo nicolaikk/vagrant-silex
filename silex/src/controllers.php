@@ -36,7 +36,7 @@ $user = $app['session']->get('user');
 
 
 $app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) {
-    /* standard error page */
+    /* custom 404 page */
     return new Response($template->render(
         'start.html.php',
         array(

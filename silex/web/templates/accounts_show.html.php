@@ -15,9 +15,9 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Benutzername</th>
+                    <th>Name</th>
                     <th>Email</th>
-                    <th>Benutzernummer</th>
+                    <th>Benutzer ID</th>
                     <th>Registriert seit</th>
                 </tr>
                 </thead>

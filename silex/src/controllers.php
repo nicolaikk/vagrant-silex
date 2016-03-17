@@ -242,7 +242,6 @@ $app->get('/account/{author}', function ($author) use ($app, $auth, $user, $temp
 });
 
 
-
 $app->get('/links', function () use ($auth, $template, $user) {
     /* page for static content */
     $pageHeading = 'Das ist ein Test';

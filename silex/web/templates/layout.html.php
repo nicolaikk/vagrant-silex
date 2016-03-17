@@ -57,9 +57,6 @@ $slots = $view['slots'];
                     <li <?= $active == 'benutzer' ? 'class="active"' : 'class="page-scroll"' ?>>
                         <a href="/accounts_show">Benutzer</a>
                     </li>
-                    <li <?= $active == 'links' ? 'class="active"' : '' ?>>
-                        <a href="/links">Links</a>
-                    </li>
                     <li class="dropdown" <?= $auth ? 'style="display:none"' : '' ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong><?= $user ?></strong> <span
                                 class="caret"></span></a>

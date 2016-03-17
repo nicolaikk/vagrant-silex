@@ -264,22 +264,6 @@ $app->get('/account/{author}', function ($author) use ($app, $auth, $user, $temp
     }
 });
 
-
-$app->get('/links', function () use ($auth, $template, $user) {
-    /* page for static content */
-    $pageHeading = 'Das ist ein Test';
-    return $template->render(
-        'layout.html.php',
-        array(
-            'active' => 'links',
-            'pageHeading' => $pageHeading,
-            'auth' => $auth,
-            'user' => $user['username'],
-            'messageType' => '',
-            'messageText' => ''
-        ));
-});
-
 $app->match('/login', function (Request $request) use ($app, $auth, $template, $dbConnection, $user) {
     /* the login page */
     if ($request->isMethod('POST')) {

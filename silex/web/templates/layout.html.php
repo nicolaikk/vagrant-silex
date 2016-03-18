@@ -82,7 +82,7 @@ $slots = $view['slots'];
                     <li class="dropdown" <?= $auth ? '' : 'style="display:none"' ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <strong>
-                                <div class="glyphicon glyphicon-log-in"></div>
+                                <span class="glyphicon glyphicon-log-in"></span>
                                 Login
                             </strong> <span class="caret"></span>
                         </a>

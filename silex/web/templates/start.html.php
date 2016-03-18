@@ -50,27 +50,27 @@
                     <img src="/images/person1.jpg" class="img-responsive img-circle"
                          alt="women making the thumb up sign">
                 </div>
-                <em>"I love producify.io"</em>
+                <em>"I love producify.io"</em> <br/> Lara C.
             </div>
             <div class="col-md-3">
                 <div class="cycle">
                     <img src="/images/person2.jpg" class="img-responsive img-circle"
                          alt="Entrepreneur working on a apple product">
                 </div>
-                <em>"There is no choice but producify.io when it comes to CRM"</em>
+                <em>"There is no choice but producify.io when it comes to CRM"</em> <br/> Peter E.
             </div>
             <div class="col-md-3">
                 <div class="cycle">
                     <img src="/images/person3.jpg" class="img-responsive img-circle" alt="Scientist doing science">
                 </div>
-                <em>"This site is helping me doing science"</em>
+                <em>"This site is helping me doing science"</em> <br/> Ada L.
             </div>
             <div class="col-md-3">
                 <div class="cycle">
                     <img src="/images/person4.jpg" class="img-responsive img-circle"
                          alt="Freelancer using the php-silex framework">
                 </div>
-                <em>"At least it's not slowing me down"</em>
+                <em>"At least it's not slowing me down"</em> <br/> Rick M.
             </div>
 
         </div>

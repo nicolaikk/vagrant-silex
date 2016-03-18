@@ -21,19 +21,19 @@
                 <form action="/blog_new" method="post" class="form-horizontal">
 
                     <div class="form-group">
-                        <label class="col-sm-10 col-sm-offset-1 control-label" for="postTitle">Titel</label>
+                        <label class="col-sm-10 col-sm-offset-1 control-label" for="postTitle">Title</label>
                         <div class="col-sm-10 col-sm-offset-1">
                             <input id="postTitle" name="postTitle" autofocus="autofocus" maxlength="80"
                                    onkeydown="checkIfEmpty()" type="text" class="form-control input-md"
-                                <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Tragen Sie hier den Titel ein."' ?>/>
+                                <?= $postTitle ? 'value="' . $postTitle . '"' : 'placeholder="Enter your title"' ?>/>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-10 col-sm-offset-1 control-label" for="post">Blogeintrag</label>
+                        <label class="col-sm-10 col-sm-offset-1 control-label" for="post">Blog post</label>
                         <div class="col-sm-10 col-sm-offset-1">
                         <textarea class="form-control" id="post" name="post" rows="10" onkeydown="checkIfEmpty()"
-                                  placeholder="Tragen Sie hier Ihren Blogeintrag ein."><?= $post ? $post : '' ?></textarea>
+                                  placeholder="Enter your blog post"><?= $post ? $post : '' ?></textarea>
                         </div>
                     </div>
 

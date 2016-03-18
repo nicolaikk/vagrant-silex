@@ -42,84 +42,124 @@
     </div>
 
     <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <h2>What our customers say:</h2>
+            <br/>
+            <div class="col-md-3 col-sm-6">
+                <div class="cycle">
+                    <img src="/images/person1.jpg" class="img-responsive img-circle"
+                         alt="women making the thumb up sign">
+                </div>
+                <em>"I love producify.io"</em>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="cycle">
+                    <img src="/images/person2.jpg" class="img-responsive img-circle"
+                         alt="Entrepreneur working on a apple product">
+                </div>
+                <em>"There is no choice but producify.io when it comes to CRM"</em>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="cycle">
+                    <img src="/images/person3.jpg" class="img-responsive img-circle" alt="Scientist doing science">
+                </div>
+                <em>"This site is helping me doing science"</em>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="cycle">
+                    <img src="/images/person4.jpg" class="img-responsive img-circle"
+                         alt="Freelancer using the php-silex framework">
+                </div>
+                <em>"At least it's not slowing me down"</em>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 content-field">
             <h2>Related Work</h2>
             <p>
                 In this section, we consider alternative algorithms as well as prior work. John Cocke et al. originally
                 articulated the need for the study of SCSI disks [1,3]. We plan to adopt many of the ideas from this
                 existing work in future versions of Muset.
-
-
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea
+                commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim
+                id est laborum.
             </p>
         </div>
+    </div>
 
-        <div class="row">
+    <div class="row">
+        <div class="col-lg-12" id="test">
+            <div id="myCarousel" class="carousel slide row" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                </ol>
 
-            <div class="col-lg-12" id="test">
-                <div id="myCarousel" class="carousel slide row" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                        <li data-target="#myCarousel" data-slide-to="3"></li>
-                    </ol>
-
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <img src="/images/skyscraper.jpg" alt="picture of city at night">
-                        </div>
-
-                        <div class="item">
-                            <img src="/images/servers.jpg" alt="picture of servers in a datacenter">
-                        </div>
-
-                        <div class="item">
-                            <img src="/images/aerialphoto.jpg" alt="picture of a field from above">
-                        </div>
-                        <div class="item">
-                            <img src="/images/forrest.jpg" alt="picture of a stream in the forrest">
-                        </div>
-
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img src="/images/skyscraper.jpg" alt="picture of city at night">
                     </div>
 
-                    <!-- Left and right controls -->
-                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
+                    <div class="item">
+                        <img src="/images/servers.jpg" alt="picture of servers in a datacenter">
+                    </div>
 
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 content-field">
-                <h2>Architecture</h2>
-                <p>
-                    In this section, we present a methodology for exploring lambda calculus. This seems to hold in most
-                    cases. Along these same lines, we ran a 8-minute-long trace verifying that our methodology is
-                    solidly
-                    grounded in reality. We assume that Smalltalk can be made classical, extensible, and concurrent.
-                    Continuing with this rationale, we instrumented a month-long trace confirming that our methodology
-                    is
-                    not feasible. We use our previously deployed results as a basis for all of these assumptions. <br/>
-                    Suppose that there exists the simulation of the partition table such that we can easily visualize
-                    pseudorandom epistemologies. Though cryptographers often assume the exact opposite, Muset depends on
-                    this property for correct behavior. We hypothesize that each component of our methodology runs in
-                    Θ(2n)
-                    time, independent of all other components. We show new low-energy algorithms in Figure 1. Next, we
-                    consider a system consisting of n hash tables. We assume that wireless technology can improve
-                    reinforcement learning without needing to allow symmetric encryption. Even though systems engineers
-                    rarely postulate the exact opposite, our algorithm depends on this property for correct behavior.
-                    See
-                    our prior technical report [21] for details.
-                </p>
+                    <div class="item">
+                        <img src="/images/aerialphoto.jpg" alt="picture of a field from above">
+                    </div>
+                    <div class="item">
+                        <img src="/images/forrest.jpg" alt="picture of a stream in the forrest">
+                    </div>
+
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
+        </div>
+
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 content-field">
+            <h2>Architecture</h2>
+            <p>
+                In this section, we present a methodology for exploring lambda calculus. This seems to hold in most
+                cases. Along these same lines, we ran a 8-minute-long trace verifying that our methodology is
+                solidly
+                grounded in reality. We assume that Smalltalk can be made classical, extensible, and concurrent.
+                Continuing with this rationale, we instrumented a month-long trace confirming that our methodology
+                is
+                not feasible. We use our previously deployed results as a basis for all of these assumptions. <br/>
+                Suppose that there exists the simulation of the partition table such that we can easily visualize
+                pseudorandom epistemologies. Though cryptographers often assume the exact opposite, Muset depends on
+                this property for correct behavior. We hypothesize that each component of our methodology runs in
+                Θ(2n)
+                time, independent of all other components. We show new low-energy algorithms in Figure 1. Next, we
+                consider a system consisting of n hash tables. We assume that wireless technology can improve
+                reinforcement learning without needing to allow symmetric encryption. Even though systems engineers
+                rarely postulate the exact opposite, our algorithm depends on this property for correct behavior.
+                See
+                our prior technical report [21] for details.
+            </p>
         </div>
     </div>
 </div>
+
 
 

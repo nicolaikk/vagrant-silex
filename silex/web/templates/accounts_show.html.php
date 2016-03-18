@@ -17,8 +17,8 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Benutzer ID</th>
-                    <th>Registriert seit</th>
+                    <th>User ID</th>
+                    <th>registered since</th>
                 </tr>
                 </thead>
                 <tbody>

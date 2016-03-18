@@ -18,9 +18,9 @@
                 <hr/>
                 <ul class="pager">
                     <li class="previous" <?= $post['id'] == 1 ? 'style="display:none"' : '' ?>><a
-                            href="<?= $post['id'] - 1 ?>">Vorheriger Post</a></li>
+                            href="<?= $post['id'] - 1 ?>">previous post</a></li>
                     <li class="next" <?= $nextPost == 1 ? '' : 'style="display:none"' ?>>
-                        <a href="<?= $post['id'] + 1 ?>">Nächster Post</a></li>
+                        <a href="<?= $post['id'] + 1 ?>">next post</a></li>
                 </ul>
             </div>
         </div>

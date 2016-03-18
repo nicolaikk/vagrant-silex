@@ -45,27 +45,27 @@
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <h2>What our customers say:</h2>
             <br/>
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3">
                 <div class="cycle">
                     <img src="/images/person1.jpg" class="img-responsive img-circle"
                          alt="women making the thumb up sign">
                 </div>
                 <em>"I love producify.io"</em>
             </div>
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3">
                 <div class="cycle">
                     <img src="/images/person2.jpg" class="img-responsive img-circle"
                          alt="Entrepreneur working on a apple product">
                 </div>
                 <em>"There is no choice but producify.io when it comes to CRM"</em>
             </div>
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3">
                 <div class="cycle">
                     <img src="/images/person3.jpg" class="img-responsive img-circle" alt="Scientist doing science">
                 </div>
                 <em>"This site is helping me doing science"</em>
             </div>
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3">
                 <div class="cycle">
                     <img src="/images/person4.jpg" class="img-responsive img-circle"
                          alt="Freelancer using the php-silex framework">

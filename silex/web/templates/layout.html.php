@@ -49,13 +49,13 @@ $slots = $view['slots'];
                         <a href="#page-top"></a>
                     </li>
                     <li <?= $active == 'blog_new' ? 'class="active"' : '' ?> <?= $auth ? 'style="display:none"' : '' ?> >
-                        <a href="/blog_new">Neuer Post</a>
+                        <a href="/blog_new">New Post</a>
                     </li>
                     <li <?= $active == 'blog_show' ? 'class="active"' : '' ?>>
                         <a href="/blog_show">Blog</a>
                     </li>
                     <li <?= $active == 'benutzer' ? 'class="active"' : 'class="page-scroll"' ?>>
-                        <a href="/accounts_show">Benutzer</a>
+                        <a href="/accounts_show">Users</a>
                     </li>
                     <li class="dropdown" <?= $auth ? 'style="display:none"' : '' ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong><?= $user ?></strong> <span
@@ -107,13 +107,13 @@ $slots = $view['slots'];
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox"/> Angemeldet bleiben
+                                                    <input type="checkbox"/> Keep me logged in
                                                 </label>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="bottom text-center">
-                                        <a href="/register">Registrieren</a>
+                                        <a href="/register">Sign up</a>
                                     </div>
                                 </div>
 
@@ -128,12 +128,12 @@ $slots = $view['slots'];
 <div
     class="alert alert-danger floating-message" <?= $messageType == 'danger' ? 'style="display:block"' : 'style="display:none"' ?>>
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Fehler:</strong> <?= $messageText ?>
+    <strong>Error:</strong> <?= $messageText ?>
 </div>
 <div
     class="alert alert-success floating-message" <?= $messageType == 'success' ? 'style="display:block"' : 'style="display:none"' ?>>
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>Erfolg:</strong> <?= $messageText ?>
+    <strong>Success:</strong> <?= $messageText ?>
 </div>
 
 <?php $slots->output('_content'); ?>

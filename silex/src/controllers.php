@@ -45,7 +45,7 @@ $app->error(function (\Exception $e, $code) use ($app, $auth, $user, $template) 
             'pageHeading' => '',
             'user' => $user['username'],
             'messageType' => 'danger',
-            'messageText' => 'Ein Fehler ist aufgetreten, die von Ihnen angefragte Seite konnte nicht gefunden werden.'
+            'messageText' => 'An error occurred -  the requested resource could not be found'
         )), 404);
 });
 
@@ -74,7 +74,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
             'blog_new.html.php',
             array(
                 'active' => 'blog_new',
-                'pageHeading' => 'Verfassen Sie hier einen neune Post',
+                'pageHeading' => 'New psot',
                 'post' => '',
                 'postTitle' => '',
                 'auth' => $auth,
@@ -94,11 +94,11 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
         } else {
             /* if the user is logged in: */
             if (($postTitle == null) && ($post == null)) {
-                $alertMessage = 'Titel und Text fehlt';
+                $alertMessage = 'You have to fill out the title and the text field';
             } elseif ($postTitle == null) {
-                $alertMessage = 'Titel fehlt';
+                $alertMessage = 'The title is missing';
             } elseif ($post == null) {
-                $alertMessage = 'Text fehlt';
+                $alertMessage = 'The text is missing';
             } else {
                 /* the post is valid */
                 $postTitle = htmlentities($postTitle);/* escaping to prevent xss */
@@ -120,7 +120,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
             'blog_new.html.php',
             array(
                 'active' => 'blog_new',
-                'pageHeading' => $pageHeading,
+                'pageHeading' => '',
                 'blogPosts' => $blogPosts,
                 'post' => $post,
                 'postTitle' => $postTitle,
@@ -141,7 +141,7 @@ $app->match('/blog_new', function (Request $request) use ($app, $auth, $user, $t
             'auth' => $auth,
             'user' => $user['username'],
             'messageType' => 'danger',
-            'messageText' => 'Verwenden Sie bitte get/post Methoden'
+            'messageText' => 'Please use the methods get/use'
         )), 405);
 }
 );
@@ -210,7 +210,7 @@ $app->get('/post/{postId}', function ($postId) use ($app, $auth, $user, $templat
                 'post' => $post,
                 'user' => $user['username'],
                 'messageType' => 'danger',
-                'messageText' => 'Der gesuchte Post ist nicht in der Datenbank vorhanden'
+                'messageText' => 'The requested post is not in the database'
             )), 404);
     } else {
         /* if the post id is in the db: */
@@ -246,7 +246,7 @@ $app->get('/account/{author}', function ($author) use ($app, $auth, $user, $temp
                 'auth' => $auth,
                 'user' => $user['username'],
                 'messageType' => 'danger',
-                'messageText' => 'Der gesuchte Benutzer ist nicht in der Datenbank'
+                'messageText' => 'The requested user is not in the database'
             )), 404);
     } else {
         return $template->render(
@@ -300,7 +300,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                     'auth' => $auth,
                     'user' => $user['username'],
                     'messageType' => 'danger',
-                    'messageText' => 'Email oder Kennwort falsch'
+                    'messageText' => 'Email or password is not correct'
                 ));
         }
 
@@ -327,7 +327,7 @@ $app->match('/login', function (Request $request) use ($app, $auth, $template, $
                 'auth' => $auth,
                 'user' => $user['username'],
                 'messageType' => 'danger',
-                'messageText' => 'Verwenden Sie bitte get/post Methoden'
+                'messageText' => 'Please use the methods get/use'
             )), 405);
     }
 });
@@ -339,7 +339,7 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
             'register.html.php',
             array(
                 'active' => '',
-                'pageHeading' => 'Registrieren',
+                'pageHeading' => 'Sign up',
                 'auth' => $auth,
                 'user' => $user['username'],
                 'messageType' => '',
@@ -361,14 +361,14 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
             $emailSet = !empty($storedUser['id']);
             if ($emailSet) {
                 /* checks if the email is already in the db */
-                $alertMessage = 'Es existiert bereits ein Account mit dieser Email';
+                $alertMessage = 'There is already an account with this Email-Address';
             } else {
                 $sqlQuery = "SELECT * FROM account WHERE username = '$username'";
                 $storedUser = $dbConnection->fetchAssoc($sqlQuery);
                 $userSet = !empty($storedUser['id']);
                 if ($userSet) {
                     /* checks if the username is already in the db */
-                    $alertMessage = 'Nutzername ist bereits vergeben';
+                    $alertMessage = 'There is already an user with this name ';
                 } else {
                     /* creates a new account and generates a hash which is needed for later verification */
                     $dbConnection->insert(
@@ -392,7 +392,7 @@ $app->match('/register', function (Request $request) use ($app, $auth, $template
                 }
             }
         } else {
-            $alertMessage = 'Passwörter stimmen nicht überein';
+            $alertMessage = 'passwords do not match';
         }
         return $template->render(
             'register.html.php',
@@ -419,7 +419,7 @@ $app->get('/account', function () use ($app, $user, $auth, $template) {
                 'pageHeading' => '',
                 'user' => $user['username'],
                 'messageType' => 'danger',
-                'messageText' => 'Sie müssen sich einloggen, um Ihr Profil zu bearbeiten'
+                'messageText' => 'You have to log in to see your account information'
             )), 403);
     }
     return $template->render(
